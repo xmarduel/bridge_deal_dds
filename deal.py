@@ -18,49 +18,49 @@ from jinja2 import Template
 
 class DealError(Exception):
     msg = "Failed to generate deal"
-    
+
     def getMsg(self):
         return msg
 
 class DealBadSettingCardError(DealError):
     msg = "Failed to generate deal : inconsistent settings for fixed card"
-    
+
     def __init__(self, color, card):
         self.color = color
         self.card = card
 
 class DealBadSettingDistributionError(DealError):
     msg = "Failed to generate deal : inconsistent settings for distribution"
-    
+
     def __init__(self, color):
         self.color = color
 
 class DealBadSettingRandomDistributionError(DealError):
     msg = "Failed to generate deal : inconsistent settings for random distribution"
-    
+
     def __init__(self):
         pass
 
 class DealBadSettingBasicDistributionError(DealError):
     msg = "Failed to generate deal : inconsistent settings for 4 colors distribution"
-    
+
     def __init__(self):
         pass
 
 class DealGenerateTargetPointsDistributionError(DealError):
     msg = "Failed to distribute honours"
-    
+
     def __init__(self, hand_pos):
         self.hand_pos = hand_pos
         
 class DealNoDDS(DealError):
     msg = "No DDS module"
-    
+
     def __init__(self):
         pass
-    
-    
-    
+
+
+
 @unique
 class Color(Enum):
     '''
@@ -70,8 +70,8 @@ class Color(Enum):
     HEARTS   = '♥'
     DIAMONDS = '♦'
     CLUBS    = '♣'
-    
-    
+
+
 
 @unique
 class Card(Enum):
@@ -132,47 +132,47 @@ class Card(Enum):
     C_Q = (3*13+10, 2, Color.CLUBS, "Q")
     C_K = (3*13+11, 3, Color.CLUBS, "K")
     C_A = (3*13+12, 4, Color.CLUBS, "A")
-    
+
     def id(self) -> int:
         return self.value[0]
-    
+
     def val(self) -> int:
         return self.value[1]
-    
+
     def color(self):
         return self.value[2]
-    
+
     def symbol(self) -> str:
         return self.value[3]
 
     def isSPADES(self) -> bool:
         return self.color() == Color.SPADES
-    
+
     def isHEARTS(self) -> bool:
         return self.color() == Color.HEARTS
-    
+
     def isDIAMONDS(self) -> bool:
         return self.color() == Color.DIAMONDS
-    
+
     def isCLUBS(self) -> bool:
         return self.color() == Color.CLUBS  
-    
+
     @classmethod
     def fromSymbolAndColor(self, symbol: str, color: Color) -> 'Card':
         for card in Card:
             card_symbol = card.symbol()
             card_color = card.color()
-                
+
             if card_color != color :
                 continue
             if card_symbol != symbol:
                 continue
-            
+
             return card
-                    
+
         # error fallback
         raise
-    
+
     @classmethod
     def cardsFromPbn(cls, pbn):
         cards_pbn = pbn.split(".") 
@@ -188,8 +188,8 @@ class Card(Enum):
                 c = Card.fromSymbolAndColor(symbol, color)
                 target_cards[color].append(c)
         return target_cards
-        
-        
+
+
 
 class Hand:
     '''
@@ -209,10 +209,10 @@ class Hand:
         Color.DIAMONDS : [],
         Color.CLUBS    : [],
     }   # type: Dict[Color,List[Card]] 
-    
+
     # global hand points, not per color points
     default_points = -1  # type: int
-    
+
     logger = logging.Logger('Deal')
     logger.setLevel(logging.INFO)
 
@@ -222,13 +222,13 @@ class Hand:
         self.pos = pos
         self.cards = []  # type: List[Card]
         # to fill
-        
+
         self.target_distribution = copy.deepcopy(self.default_distribution)
         self.target_cards = copy.deepcopy(self.default_cards)
         self.target_points = self.default_points
         
         self.distribution_type = "FIXED"  # "RANDOM"    
-    
+
     def __repr__(self) -> str:
         return self.get_compact_repr()
     
@@ -236,11 +236,11 @@ class Hand:
         '''
         '''
         res = self.get_formatted_cards(color)
-        
+
         res = sep.join([c for c in res])
-    
+
         return res
-    
+
     @classmethod
     def from_pbn(cls, pos: str, hand_pbn: str) -> 'Hand':
         '''
@@ -258,9 +258,9 @@ class Hand:
             for symbol in cards[color]:
                 c = Card.fromSymbolAndColor(symbol, color)
                 hand.cards.append(c)
-        
+
         return hand
-    
+
     def setTargetCardsFromPbn(self, hand_pbn: str):
         '''
         '''
@@ -277,14 +277,13 @@ class Hand:
             for symbol in cards[color]:
                 c = Card.fromSymbolAndColor(symbol, color)
                 self.target_cards[color].append(c)
-       
-    
+
     def prio_targeted_points(self):
         '''
         returns an integer function of the prio when considering target points
         '''
         return self.target_points # more target points -> higher prio
-        
+
     def prio_distribution(self):
         '''
         returns an integer function of the prio when considering distribution
@@ -303,31 +302,31 @@ class Hand:
         cards = sorted(cards, key=lambda card: card.id(), reverse=True)
         
         return cards
-    
+
     def get_formatted_cards(self, color: Color):
         cards = self.cards_for_color(color)
         cards_str = [ card.symbol() for card in cards ]
-        
+
         return ''.join(k for k in cards_str)
-    
+
     def get_std_repr(self) -> str:
         '''
         multiline repr
         '''
         res = "%s  %s pts \n" % (self.pos, self.points())
-        
+
         SS = self.get_formatted_cards(Color.SPADES)
         HH = self.get_formatted_cards(Color.HEARTS)
         DD = self.get_formatted_cards(Color.DIAMONDS)
         CC = self.get_formatted_cards(Color.CLUBS)
-        
+
         res += Fore.BLUE   + Style.BRIGHT + "    ♠:" + SS + Style.RESET_ALL + "\n"
         res += Fore.RED    + Style.BRIGHT + "    ♥:" + HH + Style.RESET_ALL + "\n"
         res += Fore.YELLOW + Style.BRIGHT + "    ♦:" + DD + Style.RESET_ALL + "\n"
         res += Fore.BLUE   + Style.BRIGHT + "    ♣:" + CC + Style.RESET_ALL + "\n"
-        
+
         return res
-        
+
     def get_pbn_repr(self) -> str:
         '''
         "N:.63.AKQ987.A9732 A8654.KQ5.T.QJT6 J973.J98742.3.K4 KQT2.AT.J6542.85"
@@ -336,9 +335,9 @@ class Hand:
         HH = self.get_formatted_cards(Color.HEARTS)
         DD = self.get_formatted_cards(Color.DIAMONDS)
         CC = self.get_formatted_cards(Color.CLUBS)
-        
+
         return ".".join([SS, HH, DD, CC])
-    
+
     def get_compact_repr(self) -> str:
         '''
         one line repr
@@ -353,7 +352,7 @@ class Hand:
                Fore.RED    + Style.BRIGHT + "♥" + HH + \
                Fore.YELLOW + Style.BRIGHT + "♦" + DD + \
                Fore.BLUE   + Style.BRIGHT + "♣" + CC + Style.RESET_ALL
-        
+
     def print_in_table(self, other_hand: Optional['Hand']=None):
         '''
         '''
@@ -361,27 +360,27 @@ class Hand:
         HH = self.get_formatted_cards(Color.HEARTS)
         DD = self.get_formatted_cards(Color.DIAMONDS)
         CC = self.get_formatted_cards(Color.CLUBS)
-        
+
         if other_hand:
             xSS = other_hand.get_formatted_cards(Color.SPADES)
             xHH = other_hand.get_formatted_cards(Color.HEARTS)
             xDD = other_hand.get_formatted_cards(Color.DIAMONDS)
             xCC = other_hand.get_formatted_cards(Color.CLUBS)
-        
+
         if self.pos == "N":
             print(Fore.BLUE   + Style.BRIGHT + 10*" " + "    ♠:" + SS + Style.RESET_ALL)
             print(Fore.RED    + Style.BRIGHT + 10*" " + "    ♥:" + HH + Style.RESET_ALL)
             print(Fore.YELLOW + Style.BRIGHT + 10*" " + "    ♦:" + DD + Style.RESET_ALL)
             print(Fore.BLUE   + Style.BRIGHT + 10*" " + "    ♣:" + CC + Style.RESET_ALL)
             print(" ")
-            
+
         if self.pos == "W":
             print(Fore.BLUE   + Style.BRIGHT + 0*" " + "    ♠:" + SS +  (15-len(SS))*" " + "    ♠:" + xSS + Style.RESET_ALL)
             print(Fore.RED    + Style.BRIGHT + 0*" " + "    ♥:" + HH +  (15-len(HH))*" " + "    ♥:" + xHH + Style.RESET_ALL)
             print(Fore.YELLOW + Style.BRIGHT + 0*" " + "    ♦:" + DD +  (15-len(DD))*" " + "    ♦:" + xDD + Style.RESET_ALL)
             print(Fore.BLUE   + Style.BRIGHT + 0*" " + "    ♣:" + CC +  (15-len(CC))*" " + "    ♣:" + xCC + Style.RESET_ALL)
             print(" ")
-            
+
         if self.pos == "S":
             print(Fore.BLUE    + Style.BRIGHT + 10*" " + "    ♠:" + SS + Style.RESET_ALL)
             print(Fore.RED     + Style.BRIGHT + 10*" " + "    ♥:" + HH + Style.RESET_ALL)
@@ -714,7 +713,7 @@ class Deal:
     '''
     '''
     logger = logging.Logger('Deal')
-    
+
     def __init__(self):
         '''
         '''
@@ -728,7 +727,7 @@ class Deal:
             "W" : Hand("W"),
             "E" : Hand("E"),
         }  # type: Dict[str,Hand]
-    
+
     def print(self):
         print("--------------------------")
         print(self.hand["N"].get_std_repr())
@@ -736,26 +735,26 @@ class Deal:
         print(self.hand["W"].get_std_repr())
         print(self.hand["E"].get_std_repr())
         print("--------------------------")
-        
+
     def print_compact(self):
         print(" ")
         print("N:", self.hand["N"].get_compact_repr())
         print("S:", self.hand["S"].get_compact_repr())
         print("W:", self.hand["W"].get_compact_repr())
         print("E:", self.hand["E"].get_compact_repr())
-        
+
     def print_ultra_compact(self):
         print("N:", self.hand["N"].get_compact_repr(), end=" - ")
         print("S:", self.hand["S"].get_compact_repr(), end=" - ")
         print("W:", self.hand["W"].get_compact_repr(), end=" - ")
         print("E:", self.hand["E"].get_compact_repr())    
-        
+
     def print_table(self):
         print(" ")
         self.hand["N"].print_in_table()
         self.hand["W"].print_in_table(self.hand["E"])
         self.hand["S"].print_in_table()
-        
+
     def from_pbn(self, pbn: str):
         '''
         "N:KQJ65.AQT64..K52 AT32.J53.KDJ72.J .9872.A83.AT7643 9874.K.T9654.Q98"
@@ -766,9 +765,9 @@ class Deal:
             "S" : "W",
             "W" : "N"
         }
-        
+
         pos = pbn[0]
-        
+
         cards = pbn[2:]
         all_hands = cards.split(" ")
         
@@ -781,10 +780,10 @@ class Deal:
         hand_pbn[pos] = all_hands[2]
         pos = next_pos[pos]
         hand_pbn[pos] = all_hands[3]
-        
+
         for pos in ("N", "E", "S", "W"):
             self.hand[pos].setTargetCardsFromPbn(hand_pbn[pos])
- 
+
     def to_pbn(self) -> str:
         '''
         "N:.63.AKQ987.A9732 A8654.KQ5.T.QJT6 J973.J98742.3.K4 KQT2.AT.J6542.85"
@@ -797,7 +796,7 @@ class Deal:
             self.hand["W"].get_pbn_repr()
         ]
         return " ".join(res)
-        
+
     def get_dds_results_html(self) -> str:
         """
              North South East  West 
@@ -938,7 +937,7 @@ td, th {
         '''
         template = Template('''
     <html>
-    
+
     <head>
     <style>
     body {
@@ -1026,8 +1025,7 @@ td, th {
     </html>
         ''')
         return template.render(deal=self, Color=Color)
-        
-        
+
     def reset(self):
         '''
         '''
@@ -1035,7 +1033,7 @@ td, th {
         self.hand["S"].cards = []
         self.hand["W"].cards = []
         self.hand["E"].cards = []
-        
+
     def generate(self):
         '''
         '''
@@ -1113,10 +1111,9 @@ td, th {
         self.hand["S"].cards = sorted(self.hand["S"].cards, key=lambda card: card.id(), reverse=True)
         self.hand["W"].cards = sorted(self.hand["W"].cards, key=lambda card: card.id(), reverse=True)
         self.hand["E"].cards = sorted(self.hand["E"].cards, key=lambda card: card.id(), reverse=True)
-            
-        
+
     def hand_prio_distribution(self, hand: Hand):
         return hand.prio_distribution()
-    
+
     def hand_prio_targeted_points(self, hand: Hand):
         return hand.prio_targeted_points()    

@@ -93,13 +93,13 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         self.widget.comboBoxTemplates.setCurrentIndex(idx)
         
         self.widget.comboBoxDeals.currentIndexChanged.connect(self.cb_show_deal)
-        
+
         self.counter = 1
-    
+
     def closeEvent(self, event):
         self.write_settings()
         self.write_db()
-        
+
     def read_deals(self):
         ''' '''
         fp = open("templates.json")
@@ -120,7 +120,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             deals.append(deal)
             
         return deals
-        
+
     def read_templates(self):
         ''' '''
         fp = open("templates.json")
@@ -171,7 +171,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             templates[deal.name] = deal
             
         return templates
-        
+
     def write_db(self):
         ''' '''
         ##---------------------------------------------------------
@@ -221,10 +221,10 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 tpl_description[hand]["CARDS"]["SPADES"] = get_formatted_target_cards(tpl.hand[pos], Color.SPADES)
                 tpl_description[hand]["CARDS"]["HEARTS"] = get_formatted_target_cards(tpl.hand[pos], Color.HEARTS)
                 tpl_description[hand]["CARDS"]["DIAMONDS"] = get_formatted_target_cards(tpl.hand[pos], Color.DIAMONDS)
-                tpl_description[hand]["CARDS"]["CLUBS"] = get_formatted_target_cards(tpl.hand[pos], Color.CLUBS)           
+                tpl_description[hand]["CARDS"]["CLUBS"] = get_formatted_target_cards(tpl.hand[pos], Color.CLUBS)
             
             data["TEMPLATES"].append(tpl_description)
-           
+
         # DEALS section 
         for deal in self.deals:
             
@@ -239,16 +239,15 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         fp = open("templates.json", "w")
         json.dump(data, fp, indent=4, separators=(',', ': '))
         fp.close()
-         
-        
+
     def read_settings(self):
         '''
         '''
         #settings = QtCore.QSettings("BridgeMaster", "App Example")
-        
+
         self.settings_file = "app.ini"
         settings = QtCore.QSettings(self.settings_file, QtCore.QSettings.IniFormat)
-    
+
         return settings.value("current-template", "default")
 
     def write_settings(self):
@@ -260,8 +259,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         settings = QtCore.QSettings(self.settings_file, QtCore.QSettings.IniFormat)
             
         settings.setValue("current-template", "default")
-         
-    
+
     def cb_show_template(self, index):
         '''
         '''
@@ -271,19 +269,19 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         self.template = template
 
         self.template.reset()
-        
+
         self.scene.deal = self.template
         self.scene.delete_unknown_items()
         self.scene.display_play_cards()
         self.scene.display_deal()
-    
+
     def cb_save_template(self):
         '''
         save the currently edited deal template
         '''
         name = self.scene.deal.name
         self.templates[name] = copy.deepcopy(self.scene.deal)
-    
+
     def cb_new_template(self):
         '''
         '''
@@ -316,8 +314,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             combo.currentIndexChanged.connect(self.cb_show_template)
             
             combo.setCurrentIndex(combo.findText(name))
-    
-      
+
     def cb_show_deal(self, index):
         ''' '''
         if index > 0 :
@@ -355,8 +352,6 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         file = QtCore.QFile(filename)
         file.open(QtCore.QIODevice.WriteOnly)
         pixmap.save(file, "PNG")
-        
-
 
     def cb_generate(self):
         '''
@@ -395,9 +390,9 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             
         # remake layout... TODO
         self.layout()
-        
-        
-        
+
+
+
 def loadUi(uifile, baseinstance=None):
     '''
     '''
@@ -405,23 +400,24 @@ def loadUi(uifile, baseinstance=None):
 
     widget = loader.load(uifile)
 
-    return widget     
-        
+    return widget
+
+
 def main():
     '''
     '''
     colorama.init()
-    
+
     app = QtWidgets.QApplication()
     app.setApplicationName("DealUI")
 
     mainWin = BRIDGEMainWindow()
     mainWin.show()
 
-    sys.exit(app.exec_())      
-    
+    sys.exit(app.exec_())
+
+
 if __name__ == '__main__':
     '''
     '''
     main()
-      

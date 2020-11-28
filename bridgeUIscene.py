@@ -41,22 +41,22 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         '''
         '''
         self.deal.hand["N"].target_points = value
-        
+
     def cb_set_target_points_S(self, value):
         '''
         '''
         self.deal.hand["S"].target_points = value
-        
+
     def cb_set_target_points_E(self, value):
         '''
         '''
         self.deal.hand["E"].target_points = value
-    
+
     def cb_set_target_points_W(self, value):
         '''
         '''
         self.deal.hand["W"].target_points = value
-    
+
     def make_default_scene(self):
         '''
         '''
@@ -184,7 +184,7 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         
         # the game cards to select into the user cards
         self.populate_card_item()
-        
+
     def populate_card_item(self):
         '''
         '''
@@ -195,7 +195,7 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         suffix = "png"
 
         SIZE = 25
-        
+
         self.pixmaps = {
             "UNKNOWN" : QtGui.QPixmap("cardset-%s/unknown.gif" % cardset).scaled(SIZE,SIZE),
             
@@ -255,9 +255,9 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
             Card.C_3 : QtGui.QPixmap("cardset-%s/3c.%s" % (cardset, suffix)).scaled(SIZE,SIZE),
             Card.C_2 : QtGui.QPixmap("cardset-%s/2c.%s" % (cardset, suffix)).scaled(SIZE,SIZE),
         }
-        
+
         self.card_item = {
-                
+
             Card.S_A : QtWidgets.QGraphicsPixmapItem(self.pixmaps[Card.S_A]),
             Card.S_K : QtWidgets.QGraphicsPixmapItem(self.pixmaps[Card.S_K]),
             Card.S_Q : QtWidgets.QGraphicsPixmapItem(self.pixmaps[Card.S_Q]),
@@ -314,36 +314,36 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
             Card.C_3 : QtWidgets.QGraphicsPixmapItem(self.pixmaps[Card.C_3]),
             Card.C_2 : QtWidgets.QGraphicsPixmapItem(self.pixmaps[Card.C_2]),
         }
-        
+
         # map item -> card
         self.item_card = {}
         
         for card in self.card_item:
             item = self.card_item[card]
             self.item_card[item] = card
-                
-            
-        
+
+
+
         self.unknown_cards = []
-        
+
         self.make_cards_play()
         self.display_play_cards()
-        
+
     def delete_unknown_items(self):
         '''
         '''
         for item in self.unknown_cards:
             self.removeItem(item)
-            
+
         self.unknown_cards = []
-        
+
     def make_cards_play(self):
         '''
         '''
         for card in self.card_item:  
             item = self.card_item[card]
             self.addItem(item)
-        
+
     def display_play_cards(self):
         '''
         '''
@@ -356,12 +356,12 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         
         initial_y_position = 10
         
-        for color in Color:                
+        for color in Color:
             y = initial_y_position
-            for card in self.card_item:  
+            for card in self.card_item:
                 if  card.color() != color:
                     continue
-            
+
                 item = self.card_item[card]
                 item.setPos(initial_x_position[color],y)
                 y += 30
@@ -374,16 +374,15 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         self.spinboxS.setValue(self.deal.hand["S"].target_points)
         self.spinboxE.setValue(self.deal.hand["E"].target_points)
         self.spinboxW.setValue(self.deal.hand["W"].target_points)
-        
+
         self.display_hand("N")
         self.display_hand("S")
         self.display_hand("E")
         self.display_hand("W")
-        
+
     def display_hand(self, pos):
         '''
         '''
-        
         initial_x_position = {
 
             "N": {
@@ -422,12 +421,12 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
             "W" : 240,
             "E" : 240,
         }
-        
+
         # for N, we have to get the max nb of cards in each colors in order
         # to position (y) the cards optimally
-     
+
         max_nb_cards = 0
-     
+
         target_cards = {}
         
         for color in Color:
@@ -473,7 +472,7 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
                     self.addItem(item)
                     item.setPos(x,y)
                     y += 30
-                    
+
     def mousePressEvent(self, mouseEvent):
         '''
         '''
@@ -527,7 +526,7 @@ class BridgeUIscene (QtWidgets.QGraphicsScene) :
         if self.grabbedItem not in self.item_card:
             QtWidgets.QGraphicsScene.mouseReleaseEvent(self, mouseEvent)
             return
-            
+
         card = self.item_card[self.grabbedItem]
         
         source_hand = None
