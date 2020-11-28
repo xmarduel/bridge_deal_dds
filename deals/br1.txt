@@ -1,0 +1,51 @@
+N:KQJT6.AJ765..KJ3 A7.943.AQ84.Q97 5432.K.J92.AT654 98.QT8.KT7653.82
+
+N: ♠KQJT6♥AJ765♣KJ3 - S: ♠5432♥K♦J92♣AT654 - W: ♠98♥QT8♦KT7653♣82 - E: ♠A7♥943♦AQ84♣Q97
+
+ 
+              ♠:KQJT6
+              ♥:AJ765
+              ♦:
+              ♣:KJ3
+ 
+    ♠:98                 ♠:A7
+    ♥:QT8                ♥:9432
+    ♦:KT7653             ♦:AQ84
+    ♣:82                 ♣:Q97
+ 
+              ♠:5432
+              ♥:K
+              ♦:J92
+              ♣:AT654
+			  
+Contract 6S
+
+                     NS  EW
+                     --  --
+1   W:♦ to N:♠6       1
+2   N:♥ to S:♠K       2
+3   S:♠ to E:♥            1
+4   E:♦ to N:♠        3            N has 2 ♠ left
+5   N:♠               4            N has 1 ♠ left, ♠ has 2 ♠ left
+6   N:♥A              5
+7   N:♥ to S:♠        6            N has 1 ♠ left, ♠ has 1 ♠ left
+8   S:♦ to N:♠        7                  0
+9   N:♥ to S:♠        8                  0               0
+10  S:♦ to N:♦K       9            no finess from N !
+11  N:♥J             10            last ♥ winner!
+12  N:♦3 to S:♦T     11            finess E from ♠ !   E has A♦ and Q♦ or Q9♦
+13  S:♦A wins        12
+        
+
+Remarks:
+--------
+Do not play from S A♣, then to N K♣. After this, no finess is possible
+
+A♣ from South can always be played at the end, as N as plenty of clubs,
+so do not play it first!
+
+The 11-tricks: E must leave a) A♦ or b) small ♣
+
+If she leaves A♦, this means she has Dx- CLUB♠ -> do finesse Q♣
+If she leaves x♣ , she has left A♦ and Q♣ so playing C from North, the Q falls alone!
+

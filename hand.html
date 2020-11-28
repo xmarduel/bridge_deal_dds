@@ -1,0 +1,87 @@
+<html>
+
+<style>
+    body {
+      background-color: white;
+    }
+    table {
+      background-color: lightgreen;
+      font-family: "Times New Roman";
+      font-size: large;
+      font-weight: bold;
+    }
+    table.small {
+      background-color: lightgreen;
+      font-family: "Times New Roman";
+      font-size: small;
+    }
+</style>
+    
+<!--
+font-size: xx-small;
+font-size: x-small;
+font-size: small;
+font-size: medium;
+font-size: large;
+font-size: large;
+font-size: xx-large;
+-->
+
+<body>
+<table  frame='border' cellpadding='4' >
+    <!-- row 1 -->
+    <tr>
+        <!-- (1,1): empty -->
+        <td> </td>
+        <!-- (1,2): North hand -->
+        <td colspan='2'>
+            <font style='color:black;'> &spades; K </font> <br/>
+            <font style='color:red;'  > &hearts; Q J 10 </font> <br/>
+            <font style='color:brown;'> &diams; 9 8 7 </font> <br/>
+            <font style='color:green;'> &clubs; 6 5 4 3 </font> 
+        </td>
+    </tr>
+    <!-- row 2 -->
+    <tr>
+        <!-- (2,1): west hand -->
+        <td>
+            <font style='color:black; '>&spades; A Q J 10</font> <br/>
+            <font style='color:red;   '>&hearts; A K 9 </font> <br/>
+            <font style='color:brown; '>&diams; K J 10 </font> <br/>
+            <font style='color:green; '>&clubs; A Q J </font>
+        </td>
+        <!-- (2,2) empty -->
+        <td>
+            <table class="small" style='width: 100px; height:100px' frame='border' >
+              <tr><td colspan='3' align='center'>N</td></tr>
+              <tr><td colspan='3'></td></tr>
+              <tr><td align='left'>W</td><td></td><td align='right'>E</td></tr>
+              <tr><td colspan='3'></td></tr>
+              <tr><td colspan='3' align='center'>S</td></tr>
+            </table>
+        </td>
+        <!-- (2,3) east hand -->
+        <td> 
+            <font style='color:black; '>&spades; 9 8 7 </font> <br/>
+            <font style='color:red;   '>&hearts; 8 7 6 </font> <br/> 
+            <font style='color:brown; '>&diams; 5 4 3 2 </font> <br/>
+            <font style='color:green; '>&clubs; 9 8 7 </font>
+        </td>
+    </tr>
+    <!-- row 3 -->
+    <tr>
+        <!-- (3,1): empty -->
+        <td> </td>
+        <!-- (3,2): south hand -->
+        <td colspan='2'>
+            <font style='color:black; '>&spades; 6 5 4 3 2 </font> <br/> 
+            <font style='color:red;   '>&hearts; 5 4 3 2 </font> <br/>
+            <font style='color:brown; '>&diams; A Q 6 </font> <br/>
+            <font style='color:green; '>&clubs; K 10 2 </font> <br/>
+        </td>
+    </tr>
+</table>
+</body>
+
+</html>
+

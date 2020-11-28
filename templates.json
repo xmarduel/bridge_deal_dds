@@ -1,0 +1,426 @@
+{
+    "TEMPLATES": [
+        {
+            "NAME": "default",
+            "NORTH": {
+                "POINTS": 15,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": 5,
+                    "HEARTS": 5,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "KQ",
+                    "HEARTS": "A",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 10,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        },
+        {
+            "NAME": "xavier00",
+            "NORTH": {
+                "POINTS": 15,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": 5,
+                    "DIAMONDS": 5,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "KQ",
+                    "DIAMONDS": "A",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 10,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        },
+        {
+            "NAME": "xavier01",
+            "NORTH": {
+                "POINTS": 15,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": 5,
+                    "HEARTS": 5,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 8,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": "KQT54"
+                }
+            },
+            "EAST": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        },
+        {
+            "NAME": "NT-25pts-16-9",
+            "NORTH": {
+                "POINTS": 9,
+                "DISTRIBUTION": {
+                    "TYPE": "RANDOM",
+                    "SPADES": 4,
+                    "HEARTS": 3,
+                    "DIAMONDS": 3,
+                    "CLUBS": 3
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 16,
+                "DISTRIBUTION": {
+                    "TYPE": "RANDOM",
+                    "SPADES": 4,
+                    "HEARTS": 3,
+                    "DIAMONDS": 3,
+                    "CLUBS": 3
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "RANDOM",
+                    "SPADES": 5,
+                    "HEARTS": 3,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        },
+        {
+            "NAME": "xavier34",
+            "NORTH": {
+                "POINTS": 15,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": 5,
+                    "HEARTS": 5,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "KQ",
+                    "HEARTS": "A",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "3",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        },
+        {
+            "NAME": "xavier24",
+            "NORTH": {
+                "POINTS": 14,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": 5,
+                    "HEARTS": 5,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "KQ",
+                    "HEARTS": "A",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 10,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
+        }
+    ],
+    "DEALS": [
+        {
+            "NAME": "3nt--001",
+            "DESCRIPTION": "",
+            "DIFFICULTY": 1,
+            "PBN": "N:KQ84.KJ2.853.T42 AT93.T94.74.8753 J75.A763.AQJ.KJ9 62.Q85.KT962.AQ6"
+        },
+        {
+            "NAME": "default-001",
+            "DESCRIPTION": "",
+            "DIFFICULTY": 1,
+            "PBN": "N:KQ542.AJ965.6.AJ A863..AQ542.Q742 J9.KQ32.J93.KT98 T7.T874.KT87.653"
+        },
+        {
+            "NAME": "default-002",
+            "DESCRIPTION": "",
+            "DIFFICULTY": 1,
+            "PBN": "N:KQJ43.AQ876.K2.T T8.KJ54.A43.A982 A9762..JT76.KQ53 5.T932.Q985.J764"
+        }
+    ]
+}

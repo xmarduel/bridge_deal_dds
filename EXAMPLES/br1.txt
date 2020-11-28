@@ -1,0 +1,69 @@
+N:KQJT6.AJ765..KJ3 A7.943.AQ84.Q97 5432.K.J92.AT654 98.QT8.KT7653.82
+
+ 
+              ♠:KQJT6
+              ♥:AJ765
+              ♦:
+              ♣:KJ3
+ 
+    ♠:98                 ♠:A7
+    ♥:QT8                ♥:9432
+    ♦:KT7653             ♦:AQ84
+    ♣:82                 ♣:Q97
+ 
+              ♠:5432
+              ♥:K
+              ♦:J92
+              ♣:AT654
+			  
+Contract: 6♠
+
+                     NS  EW
+                     --  --
+1   W:♦3 to N:♠6      1
+2   N:♥5 to S:♥K      2
+3   S:♠2 to E:♥A          1
+4   E:♦7 to N:♠T      3            N has 2 ♠ left, S has 3 ♠ left
+5   N:♠Q              4            N has 1 ♠ left, S has 2 ♠ left
+6   N:♥A              5
+7   N:♥6 to S:♠ ruff  6            N has 1 ♠ left, S has 1 ♠ left
+8   S:♦J to N:♠ ruff  7            N has 0 ♠ left, S has 1 ♠ left
+9   N:♥J to S:        8                  0               1          ♥ winner!
+10  N:♥7 to S:        9                  0               1          ♥ winner!
+11  N:♣K             10           
+12  N:♣3 to S:♣A     11
+13  S:♠5 wins        12            last trump
+        
+
+Remarks:
+--------
+Do not play from S A♣, then to N K♣. After this, no finess is possible
+
+A♣ from South can always be played at the end, as N as plenty of clubs,
+so do not play it first!
+
+The 11-tricks: E must leave a) A♦ or b) small ♣
+
+If she leaves A♦, this means she has Dx- CLUB♠ -> do finesse Q♣
+If she leaves x♣ , she has left A♦ and Q♣ so playing C from North, the Q falls alone!
+
+
+
+Better defense from WE -> she playes trumps
+
+                    NS  EW
+                     --  --
+1   W:♦3 to N:♠6      1            N has 4 ♠ left, S has 4 ♠ left
+2   N:♠T to E:♠A          1        N has 3 ♠ left, S has 3 ♠ left
+3   E:♠7 to N:♠K      2            N has 2 ♠ left, S has 2 ♠ left
+4   N:♥5 to S:♠K      3           
+5   S:♣4 to N:♣K      4            
+6   N:♥A              5
+7   N:♥6 to S:♠ ruff  6            N has 2 ♠ left, S has 1 ♠ left
+8   S:♦9 to N:♠ ruff  7            N has 1 ♠ left, S has 1 ♠ left
+9   N:♥J to S:♣       8                  1               1          ♥ wins! S keeps ♦
+10  N:♥7 to S:♣       9                  1               1          ♥ wins! S keeps ♦ + ♣A
+11  N:♣3 to S:♣A     10           
+12  S:♦J to N:♠ ruff 11            N has 0 ♠ left, S has 1 ♠ left
+13  N:♣J to S:♠ ruff 12            last trump from S
+

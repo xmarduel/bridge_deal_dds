@@ -1,0 +1,67 @@
+N:KQJ65.AQT64..K52 AT32.J53.KQJ72.J .9872.A83.AT7643 9874.K.T9654.Q98
+
+N: ♠KQJ65♥AQT64♦♣K52 - E: ♠AT32♥J53♦KQJ72♣J - S: ♠♥9872♦A83♣AT7643 - W: ♠9874♥K♦T9654♣Q98  
+
+              ♠:KQJ65
+              ♥:AQT64
+              ♦:
+              ♣:K52
+ 
+    ♠:9874               ♠:AT32
+    ♥:K                  ♥:J53
+    ♦:T9654              ♦:KQJ72
+    ♣:Q98                ♣:J
+ 
+              ♠:
+              ♥:9872
+              ♦:A83
+              ♣:AT7643
+
+Contract: 6 ♥
+
+                         NS  EW
+                         --  --
+1   W:T♦ to N:2♣ S:A♦    1
+2   S:2♥ to N:A♥         2            W has 2 trumps          
+3   N:K♠  E:2♠           3         
+4   N:Q♠  E:A♠ S ruffs   4            S has 3 trumps           
+5   S:3♣  N:K♣           5                  
+6   N:J♠  S:3♣           6                
+7   N:6♠  E:T♠ S ruffs   7            S has 2 trumps
+8   S:9♥  N:Q♥           8            E has J trump , S has 1 trump, N has 3 trumps
+9   N:5♠  E ruffs S:3♦      - 1           
+10  E:J♣  S:A♣           9 
+11  S:x♣  N ruffs       10            N has 2 trumps    
+12  N:♠                 11            N has 1 trump
+13  N:♠                 12
+
+or
+
+9   N:6♠ E:x♦            9
+10  N:T♠ E:J♠                1          N has 2 trumps, S no trumps
+11  E:J♣  S:A♣          10
+12  S:x♣  N:K♣          11
+13  N:♠                 12
+
+Remarks:
+--------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

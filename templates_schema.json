@@ -1,0 +1,51 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "BRIDGE UI DATAS",
+    "description": "schema for the data displayed in BridgeUI.py",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [ "TEMPLATES" , "DEALS" ],
+    "properties": {
+        "TEMPLATES" : { "type" : "array", 
+            "items" : { "type" : "object", 
+                "required"  : ["NAME", "NORTH", "SOUTH", "EAST", "WEST"],
+                "properties": {
+                    "NAME"        : { "type" : "string" },
+                    "NORTH"       : { "$ref": "#/definitions/HAND_TEMPLATE" },
+                    "SOUTH"       : { "$ref": "#/definitions/HAND_TEMPLATE" },
+                    "EAST"        : { "$ref": "#/definitions/HAND_TEMPLATE" },
+                    "WEST"        : { "$ref": "#/definitions/HAND_TEMPLATE" }
+                }
+            }
+        },
+        "DEALS"     : { "type" : "array", 
+            "items" : { "type" : "object", 
+                "required"  : ["NAME", "DESCRIPTION", "DIFFICULTY", "PBN"],
+                "properties": {
+                    "NAME"        : { "type" : "string" },
+                    "DESCRIPTION" : { "type" : "string" },
+                    "DIFFICULTY"  : { "type" : "integer" , "enum": [1,2,3,4,5,6]},
+                    "PBN"         : { "type" : "string" }
+                }
+            }
+        }
+    },
+    "definitions": {
+       "HAND_TEMPLATE" : { "type":"object" ,
+            "required"   : ["POINTS", "DISTRIBUTION"],
+            "properties" : {
+                "POINTS" : { "type" : "integer" },
+                "DISTRIBUTION"  : { "type" : "object", 
+                    "required"   : ["TYPE", "SPADES", "HEARTS", "DIAMONDS", "CLUBS"],
+                    "properties" : {
+                        "TYPE"        : { "type" : "string" , "enum" : ["RANDOM", "DETERMINISTIC"] },
+                        "SPADES"      : { "type" : "integer" },
+                        "HEARTS"      : { "type" : "integer" },
+                        "DIAMONDS"    : { "type" : "integer" },
+                        "CLUBS"       : { "type" : "integer" }
+                    }
+                }
+            }
+        }
+    }
+}

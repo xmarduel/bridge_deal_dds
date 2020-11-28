@@ -1,0 +1,23 @@
+Installation of libdds.a
+------------------------
+2014-12-03
+
+The dynamic libraries are necessary because DDS is compiled with true gcc
+to get OpenMP.
+
+The libraries can be dropped in /usr/local/lib, a directory which does not exist 
+on Mac OS X but which is on the default library search path. Users may create it via:
+
+sudo mkdir /usr/local
+sudo chmod 775 /usr/local
+sudo chgrp admin /usr/local
+mkidr /usr/local/lib
+
+Note: The Homebrew package manager carries out these steps.
+
+Alternatively, the location of the dynamic libraries can be specified via the 
+DYLD_LIBRARY_PATH environment variable, e.g.
+
+export DYLD_LIBRARY_PATH=.
+
+though using the cwd is probably a bad security practice.
