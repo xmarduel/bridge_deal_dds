@@ -951,10 +951,16 @@ td, th {
       font-weight: bold;
       table-layout:fixed;
     }
+    table.middle {
+      border: 0px solid black;
+    }
     table.small {
       border: 1px solid black;
-      width: 70px;
-      height:70px;
+      width: 85px;
+      height:85px;
+    }
+    td {
+      padding: 3px;
     }
     td.small {
       font-family: "Times New Roman";
@@ -987,22 +993,36 @@ td, th {
         <font style='color:brown; font-weight:bold'>&diams;  {{deal.hand["W"].to_pbn(Color.DIAMONDS, " ")}} </font> <br/>
         <font style='color:green; font-weight:bold'>&clubs;  {{deal.hand["W"].to_pbn(Color.CLUBS, " ")}} </font>
       </td>
-      <!-- (2,2) empty -->
-      <td>
-        <table class='small'>
-          <tr><td class='small' colspan='3' align='center'> N </td></tr>
-          <tr><td class='small' colspan='3' ></td></tr>
-          <tr><td class='small' align='left'> W </td><td></td><td align='right' class='small'> E </td></tr>
-          <tr><td class='small' colspan='3'></td></tr>
-          <tr><td class='small' colspan='3' align='center'> S </td></tr>
+      <!-- (2,2) central cube -->
+      <td colspan='2'> 
+        <table class="middle">
+          <tr>
+            <td>
+              <table class='small'>
+                <tr>
+                  <td class='small' colspan='3' align='center'> N </td>
+                </tr>
+                <tr>
+                  <td class='small' align='left'> W </td>
+                  <td></td>
+                  <td class='small' align='right'> E </td>
+                </tr>
+                <tr>
+                  <td class='small' colspan='3' align='center'> S </td>
+                </tr>
+              </table>
+            </td>
+            <!-- space -->
+            <td width="25px"> </td>
+            <!-- (2,3) east hand -->
+            <td>
+              <font style='color:black; font-weight:bold'>&spades; {{deal.hand["E"].to_pbn(Color.SPADES, " ")}} </font> <br/>
+              <font style='color:red;   font-weight:bold'>&hearts; {{deal.hand["E"].to_pbn(Color.HEARTS, " ")}} </font> <br/>
+              <font style='color:brown; font-weight:bold'>&diams;  {{deal.hand["E"].to_pbn(Color.DIAMONDS, " ")}} </font> <br/>
+              <font style='color:green; font-weight:bold'>&clubs;  {{deal.hand["E"].to_pbn(Color.CLUBS, " ")}} </font>
+            </td>
+          </tr>
         </table>
-      </td>
-      <!-- (2,3) east hand -->
-      <td>
-        <font style='color:black; font-weight:bold'>&spades; {{deal.hand["E"].to_pbn(Color.SPADES, " ")}} </font> <br/>
-        <font style='color:red;   font-weight:bold'>&hearts; {{deal.hand["E"].to_pbn(Color.HEARTS, " ")}} </font> <br/>
-        <font style='color:brown; font-weight:bold'>&diams;  {{deal.hand["E"].to_pbn(Color.DIAMONDS, " ")}} </font> <br/>
-        <font style='color:green; font-weight:bold'>&clubs;  {{deal.hand["E"].to_pbn(Color.CLUBS, " ")}} </font>
       </td>
     </tr>
     <!-- row 3 -->
