@@ -19,6 +19,7 @@ from PySide2 import QtCore
 from PySide2 import QtGui
 from PySide2 import QtWidgets
 
+from PySide2.QtWebEngineWidgets import QWebEngineView
 from PySide2.QtUiTools import QUiLoader
 
 #from PySide2.QtCore import Signal, Slot

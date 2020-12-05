@@ -949,11 +949,10 @@ td, th {
       font-family: "Times New Roman";
       font-size: large;
       font-weight: bold;
-
+      table-layout:fixed;
     }
     table.small {
       border: 1px solid black;
-      background-color: lightgreen;
       width: 70px;
       height:70px;
     }

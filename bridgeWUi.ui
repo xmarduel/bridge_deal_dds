@@ -142,7 +142,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QTextBrowser" name="textBrowserDealTable">
+        <widget class="QWebEngineView" name="textBrowserDealTable">
          <property name="minimumSize">
           <size>
            <width>500</width>
