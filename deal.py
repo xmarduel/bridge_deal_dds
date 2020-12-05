@@ -949,7 +949,7 @@ td, th {
       font-family: "Times New Roman";
       font-size: large;
       font-weight: bold;
-      
+
     }
     table.small {
       border: 1px solid black;
@@ -981,7 +981,7 @@ td, th {
     </tr>
     <!-- row 2 -->
     <tr>
-      <!-- (2,1): west hand -->border: 1px solid black;
+      <!-- (2,1): west hand -->
       <td>
         <font style='color:black; font-weight:bold'>&spades; {{deal.hand["W"].to_pbn(Color.SPADES, " ")}} </font> <br/>
         <font style='color:red;   font-weight:bold'>&hearts; {{deal.hand["W"].to_pbn(Color.HEARTS, " ")}} </font> <br/>
@@ -1004,7 +1004,7 @@ td, th {
         <font style='color:red;   font-weight:bold'>&hearts; {{deal.hand["E"].to_pbn(Color.HEARTS, " ")}} </font> <br/>
         <font style='color:brown; font-weight:bold'>&diams;  {{deal.hand["E"].to_pbn(Color.DIAMONDS, " ")}} </font> <br/>
         <font style='color:green; font-weight:bold'>&clubs;  {{deal.hand["E"].to_pbn(Color.CLUBS, " ")}} </font>
-      </td><head>
+      </td>
     </tr>
     <!-- row 3 -->
     <tr>
