@@ -366,7 +366,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         # jump in "deal" view
         self.widget.tabWidget.setCurrentIndex(1)
         
-              
+        #print(html)
         
         # reset this, need to call "DDS"
         self.widget.textBrowserDDS.setText("")
