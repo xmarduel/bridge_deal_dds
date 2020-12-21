@@ -709,6 +709,7 @@ class Hand:
         
         return
 
+
 class Deal:
     '''
     '''
@@ -829,7 +830,7 @@ class Deal:
                 
                 @staticmethod
                 def calc_dd_table(pbn):
-                    return dds.FakeDDTable()
+                    return self.FakeDDTable()
                 
         # ---hand--------------------------------------- 
 
