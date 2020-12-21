@@ -27,7 +27,7 @@ from PySide2.QtUiTools import QUiLoader
 
 #from PySide2.QtCore import Signal, Slot
 import bridgeUIscene
-import videoSurface
+import bridgeVideo
 
 
 class GuiLogger(logging.Handler):
@@ -136,7 +136,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
 
             if case == 1:
                 
-                scene = videoSurface.DDSVideoScene(self.window.cameraView)
+                scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
                 self.window.cameraView.show()
                 
                 videoItem = QtMultimediaWidgets.QGraphicsVideoItem()
@@ -157,10 +157,10 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 
             if case == 2:
                 
-                scene = videoSurface.DDSVideoScene(self.window.cameraView)
+                scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
                 self.window.cameraView.show()
                 
-                self.videoSurf = videoSurface.DDSVideoSurface(self.window.cameraView, scene)
+                self.videoSurf = bridgeVideo.DDSVideoSurface(self.window.cameraView, scene)
                 surface_format = QtMultimedia.QVideoSurfaceFormat(QtCore.QSize(400,400),
                                                                  QtMultimedia.QVideoFrame.Format_RGB32)
                 self.videoSurf.start(surface_format)
