@@ -17,14 +17,8 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
         self.scene = scene
         self.imageFormat = QtGui.QImage.Format_Invalid
         
-        #self.frame_received = QtCore.Signal()
-        
-        self.pixmapItem = QtWidgets.QGraphicsPixmapItem()
-        self.scene.addItem(self.pixmapItem)
-    
-    @QtCore.Slot(QtMultimedia.QVideoFrame)
-    def toto(self, frame):
-        print("XXXX")
+        #self.pixmapItem = QtWidgets.QGraphicsPixmapItem()
+        #self.scene.addItem(self.pixmapItem)
 
     def present(self, frame):
         '''
@@ -36,55 +30,59 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
         img = self.videoframe_to_image(frame)
         self.displayframe(img)
         
-        #self.frame_received.emit()
-        
         return True
 
-    def supportedPixelFormats(self, handleType):
+    def supportedPixelFormats(self, handle_type):
         '''
-        handleType:
+        handle_type:
             QAbstractVideoBuffer.HandleType object
         '''
-        return [
-            QtMultimedia.QVideoFrame.Format_ARGB32,
-            QtMultimedia.QVideoFrame.Format_ARGB32_Premultiplied,
-            QtMultimedia.QVideoFrame.Format_RGB32,
-            QtMultimedia.QVideoFrame.Format_RGB24,
-            QtMultimedia.QVideoFrame.Format_RGB565,
-            QtMultimedia.QVideoFrame.Format_RGB555,
-            QtMultimedia.QVideoFrame.Format_ARGB8565_Premultiplied,
-            QtMultimedia.QVideoFrame.Format_BGRA32,
-            QtMultimedia.QVideoFrame.Format_BGRA32_Premultiplied,
-            QtMultimedia.QVideoFrame.Format_BGR32,
-            QtMultimedia.QVideoFrame.Format_BGR24,
-            QtMultimedia.QVideoFrame.Format_BGR565,
-            QtMultimedia.QVideoFrame.Format_BGR555,
-            QtMultimedia.QVideoFrame.Format_BGRA5658_Premultiplied,
-            QtMultimedia.QVideoFrame.Format_AYUV444,
-            QtMultimedia.QVideoFrame.Format_AYUV444_Premultiplied,
-            QtMultimedia.QVideoFrame.Format_YUV444,
-            QtMultimedia.QVideoFrame.Format_YUV420P,
-            QtMultimedia.QVideoFrame.Format_YV12,
-            QtMultimedia.QVideoFrame.Format_UYVY,
-            QtMultimedia.QVideoFrame.Format_YUYV,
-            QtMultimedia.QVideoFrame.Format_NV12,
-            QtMultimedia.QVideoFrame.Format_NV21,
-            QtMultimedia.QVideoFrame.Format_IMC1,
-            QtMultimedia.QVideoFrame.Format_IMC2,
-            QtMultimedia.QVideoFrame.Format_IMC3,
-            QtMultimedia.QVideoFrame.Format_IMC4,
-            QtMultimedia.QVideoFrame.Format_Y8,
-            QtMultimedia.QVideoFrame.Format_Y16,
-            QtMultimedia.QVideoFrame.Format_Jpeg,
-            QtMultimedia.QVideoFrame.Format_CameraRaw,
-            QtMultimedia.QVideoFrame.Format_AdobeDng
-        ]
+        result = []
+        
+        if handle_type == QtMultimedia.QAbstractVideoBuffer.NoHandle:
+            result [
+                QtMultimedia.QVideoFrame.Format_ARGB32,
+                QtMultimedia.QVideoFrame.Format_ARGB32_Premultiplied,
+                QtMultimedia.QVideoFrame.Format_RGB32,
+                QtMultimedia.QVideoFrame.Format_RGB24,
+                QtMultimedia.QVideoFrame.Format_RGB565,
+                QtMultimedia.QVideoFrame.Format_RGB555,
+                QtMultimedia.QVideoFrame.Format_ARGB8565_Premultiplied,
+                QtMultimedia.QVideoFrame.Format_BGRA32,
+                QtMultimedia.QVideoFrame.Format_BGRA32_Premultiplied,
+                QtMultimedia.QVideoFrame.Format_BGR32,
+                QtMultimedia.QVideoFrame.Format_BGR24,
+                QtMultimedia.QVideoFrame.Format_BGR565,
+                QtMultimedia.QVideoFrame.Format_BGR555,
+                QtMultimedia.QVideoFrame.Format_BGRA5658_Premultiplied,
+                QtMultimedia.QVideoFrame.Format_AYUV444,
+                QtMultimedia.QVideoFrame.Format_AYUV444_Premultiplied,
+                QtMultimedia.QVideoFrame.Format_YUV444,
+                QtMultimedia.QVideoFrame.Format_YUV420P,
+                QtMultimedia.QVideoFrame.Format_YV12,
+                QtMultimedia.QVideoFrame.Format_UYVY,
+                QtMultimedia.QVideoFrame.Format_YUYV,
+                QtMultimedia.QVideoFrame.Format_NV12,
+                QtMultimedia.QVideoFrame.Format_NV21,
+                QtMultimedia.QVideoFrame.Format_IMC1,
+                QtMultimedia.QVideoFrame.Format_IMC2,
+                QtMultimedia.QVideoFrame.Format_IMC3,
+                QtMultimedia.QVideoFrame.Format_IMC4,
+                QtMultimedia.QVideoFrame.Format_Y8,
+                QtMultimedia.QVideoFrame.Format_Y16,
+                QtMultimedia.QVideoFrame.Format_Jpeg,
+                QtMultimedia.QVideoFrame.Format_CameraRaw,
+                QtMultimedia.QVideoFrame.Format_AdobeDng
+            ]
+            
+        return result
     
     def isFormatSupported(self, xformat):
         '''
         format: 
             QVideoSurfaceFormat object
         '''
+        print("isFormatSupported...")
         imageFormat = QtMultimedia.QVideoFrame.imageFormatFromPixelFormat(xformat.pixelFormat())
         size = xformat.frameSize()
 
@@ -130,7 +128,7 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
 
         if imageFormat != QtGui.QImage.Format_Invalid and not size.isEmpty() :
             self.imageFormat = imageFormat
-            QtMultimedia.QAbstractVideoSurface.start(self, xformat)
+            super().start(xformat)
             return True
         else:
             return False
@@ -138,7 +136,7 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def stop(self):
         '''
         '''
-        QtMultimedia.QAbstractVideoSurface.stop(self)
+        super().stop()
         self.view.update()
 
 

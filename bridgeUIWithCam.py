@@ -119,11 +119,16 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             #self.camera = QtMultimedia.QCamera(QtMultimedia.QCamera.FrontFace)
             #self.camera = QtMultimedia.QCamera(QtMultimedia.QCamera.BackFace)
             
-            case = 0
+            # CAMERA
             case = 1
-            #case = 2
+            case = 2
             
-            if case == 0:
+            # MEDIA PLAYER
+            #case = 11
+            #case = 12
+            case = 13
+            
+            if case == 1:
                 
                 viewfinder = QtMultimediaWidgets.QCameraViewfinder()
             
@@ -133,39 +138,18 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 viewfinder.show()
                 
                 self.camera.start()  # to start the viewfinder
-
-            if case == 1:
-                
-                scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
-                self.window.cameraView.show()
-                
-                videoItem = QtMultimediaWidgets.QGraphicsVideoItem()
-                size = videoItem.size()  # (320,240) 
-                videoItem.setSize(QtCore.QSize(720/2, 1280/2))
-                size = videoItem.size()
-                
-                scene.addItem(videoItem)
-                 
-                player = QtMultimedia.QMediaPlayer(self)
-                player.setVideoOutput(videoItem)
-                player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
-                
-                surface = videoItem.videoSurface()
-                nativesize = videoItem.nativeSize()
-                
-                player.play()
                 
             if case == 2:
                 
                 scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
                 self.window.cameraView.show()
                 
-                self.videoSurf = bridgeVideo.DDSVideoSurface(self.window.cameraView, scene)
+                self.video_surface = bridgeVideo.DDSVideoSurface(self.window.cameraView, scene)
                 surface_format = QtMultimedia.QVideoSurfaceFormat(QtCore.QSize(400,400),
                                                                  QtMultimedia.QVideoFrame.Format_RGB32)
-                self.videoSurf.start(surface_format)
+                self.video_surface.start(surface_format)
                 
-                self.camera.setViewfinder(self.videoSurf);
+                self.camera.setViewfinder(self.video_surface)
 
                 #self.videoProbe = QtMultimedia.QVideoProbe(self)
                 #ok = self.videoProbe.setSource(self.camera)
@@ -174,6 +158,57 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 #self.videoProbe.videoFrameProbed.connect(titi)
                                                                   
                 self.camera.start()  # to start the viewfinder
+                
+
+            if case == 11:  # MOVIE inside videoItem # FIXME: size of MOVIE / size of videoItem
+                
+                scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
+                self.window.cameraView.show()
+                
+                videoItem = QtMultimediaWidgets.QGraphicsVideoItem()
+                size = videoItem.size()  # (320,240) 
+                #videoItem.setSize(QtCore.QSize(320,555))
+                size = videoItem.size()
+                
+                surface = videoItem.videoSurface()
+                nativesize = videoItem.nativeSize()
+                
+                scene.addItem(videoItem)
+                 
+                player = QtMultimedia.QMediaPlayer(self)
+                player.setVideoOutput(videoItem)
+                player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
+                player.play()
+                
+            if case == 12:  # MOVIE inside QVideoWidget - GOOD
+                
+                self.window.cameraView.hide()
+                
+                videoWidget =  QtMultimediaWidgets.QVideoWidget()
+                camTab.layout().addWidget(videoWidget, 1)
+                videoWidget.show()
+                
+                # player must NOT be destroyed... -> must be "self.player"
+                self.player = QtMultimedia.QMediaPlayer()
+                self.player.setVideoOutput(videoWidget)
+                self.player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))                                   
+                self.player.play()
+                
+            if case == 13:  # MOVIE inside QAbstractVideoSurface # FIXME: nothing shown...
+                
+                scene = bridgeVideo.DDSVideoScene(self.window.cameraView)
+                self.window.cameraView.show()
+                
+                self.video_surface = bridgeVideo.DDSVideoSurface(self.window.cameraView, scene)
+                surface_format = QtMultimedia.QVideoSurfaceFormat(QtCore.QSize(720/2, 1280/2),
+                                                                  QtMultimedia.QVideoFrame.Format_RGB32)
+                ok = self.video_surface.start(surface_format)
+                
+                self.player = QtMultimedia.QMediaPlayer()
+                
+                self.player.setVideoOutput(self.video_surface)
+                self.player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
+                self.player.play()
                 
         # camera ---------------------------------------------------
         
