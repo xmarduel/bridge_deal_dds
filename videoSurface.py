@@ -29,11 +29,11 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def present(self, frame):
         '''
         frame: 
-            QVideoFrame
+            QVideoFrame object
         '''
         print("present frame...")
         
-        img = self.VideoFrameToImage(frame)
+        img = self.videoframe_to_image(frame)
         self.displayframe(img)
         
         #self.frame_received.emit()
@@ -43,7 +43,7 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def supportedPixelFormats(self, handleType):
         '''
         handleType:
-            QAbstractVideoBuffer::HandleType
+            QAbstractVideoBuffer.HandleType object
         '''
         return [
             QtMultimedia.QVideoFrame.Format_ARGB32,
@@ -83,7 +83,7 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def isFormatSupported(self, xformat):
         '''
         format: 
-            QVideoSurfaceFormat
+            QVideoSurfaceFormat object
         '''
         imageFormat = QtMultimedia.QVideoFrame.imageFormatFromPixelFormat(xformat.pixelFormat())
         size = xformat.frameSize()
@@ -97,20 +97,20 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def displayframe(self, img):
         '''
         img:
-            QImage
+            QImage object
         '''
         self.pixmap.setPixmap(QtGui.QPixmap.fromImage(img))
-        #self.view.fitInView(QtCore.QRectF(0,0,img.width(), img.height()), 
-        #                    QtCore.Qt.KeepAspectRatio)
+        self.view.fitInView(QtCore.QRectF(0,0,img.width(), img.height()), 
+                            QtCore.Qt.KeepAspectRatio)
         
         self.view.update()
     
-    def VideoFrameToImage(self, frame):
+    def videoframe_to_image(self, frame):
         '''
         frame:
-            QVideoFrame
+            QVideoFrame object
         
-        return QImage
+        return QImage object
         '''
         if frame.map(QtMultimedia.QAbstractVideoBuffer.ReadOnly):
             return QtGui.QImage(frame.bits(), frame.width(), frame.height(), frame.bytesPerLine(), self.imageFormat)
@@ -120,7 +120,7 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
     def start(self, xformat):
         '''
         format:
-            QVideoSurfaceFormat
+            QVideoSurfaceFormat object
             
         return 
             bool
@@ -136,6 +136,8 @@ class DDSVideoSurface(QtMultimedia.QAbstractVideoSurface):
             return False
     
     def stop(self):
+        '''
+        '''
         QtMultimedia.QAbstractVideoSurface.stop(self)
         self.view.update()
 

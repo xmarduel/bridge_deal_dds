@@ -52,9 +52,9 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         """
         QtWidgets.QMainWindow.__init__(self)
         
-        self.widget = loadUi('bridgeWUi.ui', self)
+        self.window = loadUi('bridgeWUiWithCam.ui', self)
         
-        self.setCentralWidget(self.widget)
+        self.setCentralWidget(self.window)
         
         
         curr_template = self.read_settings()
@@ -67,49 +67,49 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         # fill the graphic view
         self.scene = bridgeUIscene.BridgeUIscene(self.template)
          
-        self.widget.graphicsViewEdit.setScene(self.scene)
-        self.widget.graphicsViewEdit.show()
+        self.window.graphicsViewEdit.setScene(self.scene)
+        self.window.graphicsViewEdit.show()
 
-        gui_logger = GuiLogger(self.widget.loggerView)
+        gui_logger = GuiLogger(self.window.loggerView)
         logging.getLogger().addHandler(gui_logger)
 
-        self.widget.tabWidget.currentChanged.connect(self.cb_toggle_view)
+        self.window.tabWidget.currentChanged.connect(self.cb_toggle_view)
 
-        self.widget.pushButtonGenerate.clicked.connect(self.cb_generate)
-        self.widget.pushButtonDDS.clicked.connect(self.cb_dds)
+        self.window.pushButtonGenerate.clicked.connect(self.cb_generate)
+        self.window.pushButtonDDS.clicked.connect(self.cb_dds)
 
-        self.widget.pushButtonSaveTemplate.clicked.connect(self.cb_save_template)
-        self.widget.pushButtonNewTemplate.clicked.connect(self.cb_new_template)
-        self.widget.comboBoxTemplates.currentIndexChanged.connect(self.cb_show_template)
+        self.window.pushButtonSaveTemplate.clicked.connect(self.cb_save_template)
+        self.window.pushButtonNewTemplate.clicked.connect(self.cb_new_template)
+        self.window.comboBoxTemplates.currentIndexChanged.connect(self.cb_show_template)
         
-        self.widget.pushButtonSaveDeal.clicked.connect(self.cb_save_deal)   
-        self.widget.pushButtonSaveDealAsImage.clicked.connect(self.cb_save_deal_as_image)
+        self.window.pushButtonSaveDeal.clicked.connect(self.cb_save_deal)   
+        self.window.pushButtonSaveDealAsImage.clicked.connect(self.cb_save_deal_as_image)
              
-        #self.widget.pushButtonN.clicked.connect(self.XXXX)
-        #self.widget.pushButtonS.clicked.connect(self.XXXX)
-        #self.widget.pushButtonW.clicked.connect(self.XXXX)
-        #self.widget.pushButtonE.clicked.connect(self.XXXX)
+        #self.window.pushButtonN.clicked.connect(self.XXXX)
+        #self.window.pushButtonS.clicked.connect(self.XXXX)
+        #self.window.pushButtonW.clicked.connect(self.XXXX)
+        #self.window.pushButtonE.clicked.connect(self.XXXX)
         
-        self.widget.loggerView.hide()
+        self.window.loggerView.hide()
         # invisible on Template View
-        self.widget.pushButtonDDS.hide()
-        self.widget.textBrowserDDS.hide()
+        self.window.pushButtonDDS.hide()
+        self.window.textBrowserDDS.hide()
         
-        self.widget.pushButtonGenerate.show()
+        self.window.pushButtonGenerate.show()
     
         tpl_list = [tpl_name for tpl_name in self.templates]
-        self.widget.comboBoxTemplates.addItems(tpl_list)
+        self.window.comboBoxTemplates.addItems(tpl_list)
         
         deal_list = [" "] + [deal.name for deal in self.deals]
-        self.widget.comboBoxDeals.addItems(deal_list)        
+        self.window.comboBoxDeals.addItems(deal_list)        
         
         idx = tpl_list.index(curr_template)
-        self.widget.comboBoxTemplates.setCurrentIndex(idx)
+        self.window.comboBoxTemplates.setCurrentIndex(idx)
         
-        self.widget.comboBoxDeals.currentIndexChanged.connect(self.cb_show_deal)
+        self.window.comboBoxDeals.currentIndexChanged.connect(self.cb_show_deal)
 
         # camera ---------------------------------------------------
-        camTab = self.widget.tabWidget.widget(1)
+        camTab = self.window.tabWidget.widget(1)
         
         camerasInfo = QtMultimedia.QCameraInfo.availableCameras()
         
@@ -136,26 +136,34 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
 
             if case == 1:
                 
-                scene = videoSurface.DDSVideoScene(self.widget.cameraView)
-                self.widget.cameraView.show()
+                scene = videoSurface.DDSVideoScene(self.window.cameraView)
+                self.window.cameraView.show()
                 
                 videoItem = QtMultimediaWidgets.QGraphicsVideoItem()
+                size = videoItem.size()  # (320,240) 
+                videoItem.setSize(QtCore.QSize(720/2, 1280/2))
+                size = videoItem.size()
+                
                 scene.addItem(videoItem)
                  
                 player = QtMultimedia.QMediaPlayer(self)
-                player.setVideoOutput(videoItem);
+                player.setVideoOutput(videoItem)
                 player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
+                
+                surface = videoItem.videoSurface()
+                nativesize = videoItem.nativeSize()
+                
                 player.play()
                 
             if case == 2:
                 
-                scene = videoSurface.DDSVideoScene(self.widget.cameraView)
-                self.widget.cameraView.show()
+                scene = videoSurface.DDSVideoScene(self.window.cameraView)
+                self.window.cameraView.show()
                 
-                self.videoSurf = videoSurface.DDSVideoSurface(self.widget.cameraView, scene)
+                self.videoSurf = videoSurface.DDSVideoSurface(self.window.cameraView, scene)
                 surface_format = QtMultimedia.QVideoSurfaceFormat(QtCore.QSize(400,400),
                                                                  QtMultimedia.QVideoFrame.Format_RGB32)
-                #self.videoSurf.start(surface_format)
+                self.videoSurf.start(surface_format)
                 
                 self.camera.setViewfinder(self.videoSurf);
 
@@ -342,7 +350,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
     def cb_show_template(self, index):
         '''
         '''
-        name = self.widget.comboBoxTemplates.itemText(index)
+        name = self.window.comboBoxTemplates.itemText(index)
         template = copy.deepcopy(self.templates[name])
 
         self.template = template
@@ -383,7 +391,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             self.templates[name] = template
             names = [tplname for tplname in self.templates]
             
-            combo = self.widget.comboBoxTemplates
+            combo = self.window.comboBoxTemplates
             
             combo.currentIndexChanged.disconnect()
             
@@ -400,10 +408,10 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             deal = self.deals[index-1]
 
             html = deal.get_deal_html()
-            self.widget.textBrowserDealTable.setHtml(html)
+            self.window.textBrowserDealTable.setHtml(html)
         
             html = deal.get_dds_results_html()
-            self.widget.textBrowserDDS.setHtml(html)
+            self.window.textBrowserDDS.setHtml(html)
 
     def cb_save_deal(self):
         '''
@@ -416,8 +424,8 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         
         deal_list = [" "] + [deal.name for deal in self.deals]
         
-        self.widget.comboBoxDeals.clear()
-        self.widget.comboBoxDeals.addItems(deal_list)           
+        self.window.comboBoxDeals.clear()
+        self.window.comboBoxDeals.addItems(deal_list)           
     
     def cb_save_deal_as_image(self):
         '''
@@ -439,15 +447,15 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         self.template.generate()
         
         html = self.template.get_deal_html()
-        self.widget.textBrowserDealTable.setHtml(html)
+        self.window.textBrowserDealTable.setHtml(html)
         
         # jump in "deal" view
-        self.widget.tabWidget.setCurrentIndex(1)
+        self.window.tabWidget.setCurrentIndex(1)
         
         #print(html)
         
         # reset this, need to call "DDS"
-        self.widget.textBrowserDDS.setText("")
+        self.window.textBrowserDDS.setText("")
         self.cb_dds()
         
     def cb_dds(self):
@@ -455,23 +463,23 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         '''
         html = self.template.get_dds_results_html()
         
-        self.widget.textBrowserDDS.setHtml(html)
+        self.window.textBrowserDDS.setHtml(html)
         
     def cb_toggle_view(self, index):
         '''
         '''
         if index == 0:
-            self.widget.pushButtonGenerate.show()
-            self.widget.pushButtonDDS.hide()
-            self.widget.textBrowserDDS.hide()
+            self.window.pushButtonGenerate.show()
+            self.window.pushButtonDDS.hide()
+            self.window.textBrowserDDS.hide()
         if index == 1:
-            self.widget.pushButtonGenerate.hide()
-            self.widget.pushButtonDDS.show()
-            self.widget.textBrowserDDS.show() 
+            self.window.pushButtonGenerate.hide()
+            self.window.pushButtonDDS.show()
+            self.window.textBrowserDDS.show() 
         if index == 2:
-            self.widget.pushButtonGenerate.show()
-            self.widget.pushButtonDDS.show()
-            self.widget.textBrowserDDS.show() 
+            self.window.pushButtonGenerate.show()
+            self.window.pushButtonDDS.show()
+            self.window.textBrowserDDS.show() 
             
         # remake layout... TODO
         self.layout()
@@ -483,9 +491,9 @@ def loadUi(uifile, baseinstance=None):
     '''
     loader = QUiLoader(baseinstance)
 
-    widget = loader.load(uifile)
+    window = loader.load(uifile)
 
-    return widget
+    return window
 
 
 def main():
