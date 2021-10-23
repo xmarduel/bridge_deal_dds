@@ -134,15 +134,17 @@ static PyMethodDef TableResults_methods[] = {
 static PyTypeObject TableResultsType = {
     PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "dds.TableResult",
-    .tp_doc = "TableResult objects",
     .tp_basicsize = sizeof(TableResultsObject),
-    .tp_itemsize = 0,
+	.tp_itemsize = 0,
+	.tp_dealloc = (destructor) TableResults_dealloc,
+	//.tp_repr = NULL
     .tp_flags = Py_TPFLAGS_DEFAULT,
-    .tp_new = TableResults_new,
-//    .tp_init = (initproc) TableResults_init,
-    .tp_dealloc = (destructor) TableResults_dealloc,
+    .tp_doc = "TableResult objects",
+   
 //    .tp_members = TableResults_members,
     .tp_methods = TableResults_methods,
+	
+	.tp_new = TableResults_new,
 };
 
 static PyObject* py_show_deal(PyObject* self, PyObject* args)

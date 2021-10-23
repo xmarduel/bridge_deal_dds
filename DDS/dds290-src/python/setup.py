@@ -5,7 +5,7 @@ module1 = Extension('dds',
                                      ('MINOR_VERSION', '0')],
                     include_dirs = ['/usr/local/include'],
                     libraries = ['dds', 'boost_thread-mt'],
-                    library_dirs = ['.'],
+                    library_dirs = ['../src'],
                     sources = ['wrapper.cpp', 'hands.cpp'])
 
 setup (name = 'dds',
