@@ -8,12 +8,13 @@ import os
 import ctypes
 
 
-class dds_ddTableResults(ctypes.Structure):
-    '''
-    '''
+class ddTableDealPBN(ctypes.Structure):
+    _fields_ = [("cards", ctypes.c_char * 80)]
+
+class ddTableResults(ctypes.Structure):
     _fields_ = [("resTable", ctypes.c_int * 4 * 5 ) ]
 
-class dds_ddTableResultsWrapper:
+class ddTableResultsWrapper:
     '''
     'cos cannot add method to a Structure directly
     '''
@@ -24,9 +25,9 @@ class dds_ddTableResultsWrapper:
         return self.result.contents.resTable[i][j]
 
 
-class dds:
+class DDS:
     '''
-    '''
+    ''' 
     NOTRUMP = 4
     SPADES = 0
     HEARTS = 1
@@ -37,13 +38,13 @@ class dds:
     EAST = 1
     SOUTH = 2
     WEST = 3
-        
+
     def __init__(self):
         os.add_dll_directory("C:\\msys64\\mingw64\\bin")
-        self.dll = ctypes.WinDLL("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\dds.dll")
+        self.dds = ctypes.WinDLL("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\dds.dll")
         
-        self.dll.calc_dd_table.restype = ctypes.POINTER(dds_ddTableResults)
-        self.dll.show_result.argtypes  = [ctypes.POINTER(dds_ddTableResults)]
+        self.dds.calc_dd_table.restype = ctypes.POINTER(ddTableResults)
+        self.dds.show_result.argtypes  = [ctypes.POINTER(ddTableResults)]
         
         
     def show_deal(self, pbn: str):
@@ -51,7 +52,7 @@ class dds:
         '''
         b_pbn = pbn.encode('utf-8')
         c_pbn = ctypes.create_string_buffer(b_pbn)
-        self.dll.show_deal(c_pbn)
+        self.dds.show_deal(c_pbn)
         
     def calc_dd_table(self, pbn: str):
         '''
@@ -59,7 +60,7 @@ class dds:
         b_pbn = pbn.encode('utf-8')
         c_pbn = ctypes.create_string_buffer(b_pbn)
         
-        result = self.dll.calc_dd_table(c_pbn)
+        result = self.dds.calc_dd_table(c_pbn)
         
         return result
         
@@ -69,12 +70,12 @@ class dds:
         b_pbn = pbn.encode('utf-8')
         c_pbn = ctypes.create_string_buffer(b_pbn)
         
-        self.dll.calc_and_show_result(c_pbn)
+        self.dds.calc_and_show_result(c_pbn)
         
     def show_result(self, result: any):
         '''
         '''                           
-        self.dll.show_result(result)
+        self.dds.show_result(result)
         
     def solve_board(self, pbn: str, 
                     trump: int,
@@ -89,7 +90,7 @@ class dds:
         b_pbn = pbn.encode('utf-8')
         c_pbn = ctypes.create_string_buffer(b_pbn)
         
-        self.dll.solve_board(c_pbn, 
+        self.dds.solve_board(c_pbn, 
             trump, 
             first,
             first_card_suit,
@@ -101,14 +102,12 @@ class dds:
         
         
 if __name__ == '__main__':
-    dds = dds()
+    DDS = DDS()
     
     pbn = "N:KQ964.AK763.J6.Q AJ8.J5.Q92.KJ964 7.T42.AT84.AT875 T532.Q98.K753.32"
-    dds.show_deal(pbn)
+    DDS.show_deal(pbn)
     
-    dds.calc_and_show_result(pbn)
+    DDS.calc_and_show_result(pbn)
     
-    res = dds.calc_dd_table(pbn)
-    dds.show_result(res)     
-
-    #print(dds_ddTableResultsWrapper(res).data(2,2))    
+    res = DDS.calc_dd_table(pbn)
+    DDS.show_result(res)     
