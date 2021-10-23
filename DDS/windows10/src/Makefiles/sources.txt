@@ -25,5 +25,4 @@ SOURCE_FILES    =               \
         TimeStat.cpp            \
         TimeStatList.cpp        \
         TransTableS.cpp         \
-        TransTableL.cpp         \
-	hands.cpp
+        TransTableL.cpp
