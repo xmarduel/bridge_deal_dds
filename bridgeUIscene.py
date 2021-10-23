@@ -1,13 +1,19 @@
 #coding: utf8
 
+import sys
+
 from deal import Deal
 from deal import Color
 from deal import Card
 
-from PySide2 import QtCore
-from PySide2 import QtGui
-from PySide2 import QtWidgets
-
+if sys.platform == 'win32':
+    from PySide6 import QtCore
+    from PySide6 import QtGui
+    from PySide6 import QtWidgets
+else:
+    from PySide2 import QtCore
+    from PySide2 import QtGui
+    from PySide2 import QtWidgets  
 
 class BridgeUIscene (QtWidgets.QGraphicsScene) :
     '''

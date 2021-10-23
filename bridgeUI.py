@@ -15,14 +15,21 @@ from deal import Deal
 from deal import Color
 from deal import Card
 
-from PySide2 import QtCore
-from PySide2 import QtGui
-from PySide2 import QtWidgets
+if sys.platform == 'win32':
+    from PySide6 import QtCore
+    from PySide6 import QtGui
+    from PySide6 import QtWidgets
 
-from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtUiTools import QUiLoader
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    from PySide6.QtUiTools import QUiLoader
+else:
+    from PySide2 import QtCore
+    from PySide2 import QtGui
+    from PySide2 import QtWidgets
 
-#from PySide2.QtCore import Signal, Slot
+    from PySide2.QtWebEngineWidgets import QWebEngineView
+    from PySide2.QtUiTools import QUiLoader
+
 import bridgeUIscene
 
 

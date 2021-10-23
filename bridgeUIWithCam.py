@@ -15,17 +15,27 @@ from deal import Deal
 from deal import Color
 from deal import Card
 
-from PySide2 import QtCore
-from PySide2 import QtGui
-from PySide2 import QtWidgets
+if sys.platform == 'win32':
+    from PySide6 import QtCore
+    from PySide6 import QtGui
+    from PySide6 import QtWidgets
 
-from PySide2 import QtMultimedia
-from PySide2 import QtMultimediaWidgets
+    from PySide6 import QtMultimedia
+    from PySide6 import QtMultimediaWidgets
 
-from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtUiTools import QUiLoader
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    from PySide6.QtUiTools import QUiLoader
+else:
+    from PySide2 import QtCore
+    from PySide2 import QtGui
+    from PySide2 import QtWidgets
 
-#from PySide2.QtCore import Signal, Slot
+    from PySide2 import QtMultimedia
+    from PySide2 import QtMultimediaWidgets
+
+    from PySide2.QtWebEngineWidgets import QWebEngineView
+    from PySide2.QtUiTools import QUiLoader 
+
 import bridgeUIscene
 import bridgeVideo
 
@@ -124,9 +134,9 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             case = 2
             
             # MEDIA PLAYER
-            #case = 11
-            #case = 12
-            case = 13
+            case = 11
+            case = 12
+            #case = 13
             
             if case == 1:
                 
@@ -177,7 +187,8 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                  
                 player = QtMultimedia.QMediaPlayer(self)
                 player.setVideoOutput(videoItem)
-                player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
+                player.setMedia(QtCore.QUrl.fromLocalFile(
+                    os.path.join(os.environ["HOME"], "Documents/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV")))
                 player.play()
                 
             if case == 12:  # MOVIE inside QVideoWidget - GOOD
@@ -191,7 +202,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 # player must NOT be destroyed... -> must be "self.player"
                 self.player = QtMultimedia.QMediaPlayer()
                 self.player.setVideoOutput(videoWidget)
-                self.player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))                                   
+                self.player.setMedia(QtCore.QUrl.fromLocalFile("IMG_0770_0720x1280.MOV"))
                 self.player.play()
                 
             if case == 13:  # MOVIE inside QAbstractVideoSurface # FIXME: nothing shown...
@@ -207,7 +218,8 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
                 self.player = QtMultimedia.QMediaPlayer()
                 
                 self.player.setVideoOutput(self.video_surface)
-                self.player.setMedia(QtCore.QUrl.fromLocalFile("/Users/xavier/PYTHON_TOOLS/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV"))
+                self.player.setMedia(QtCore.QUrl.fromLocalFile(
+                    os.path.join(os.environ["HOME"], "Documents/GITHUB/bridge_dds/IMG_0770_0720x1280.MOV")))
                 self.player.play()
                 
         # camera ---------------------------------------------------
