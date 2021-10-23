@@ -1,5 +1,7 @@
 #coding: utf8
 
+import sys
+
 from typing import Optional
 from typing import List
 from typing import Set
@@ -15,12 +17,14 @@ from colorama import Style
 
 from jinja2 import Template
 
+sys.path.append("./DDS_WRAPPER")
+
 
 class DealError(Exception):
     msg = "Failed to generate deal"
 
     def getMsg(self):
-        return msg
+        return self.msg
 
 class DealBadSettingCardError(DealError):
     msg = "Failed to generate deal : inconsistent settings for fixed card"
@@ -808,7 +812,8 @@ class Deal:
         C     3     3     9     9
         """ 
         try:
-            import dds
+            # TODO switch win32/others
+            import DDS_WRAPPER.DDSW as DDSW
         except Exception as e:
             class dds:
                 SPADES   = 0
@@ -832,26 +837,30 @@ class Deal:
                 def calc_dd_table(pbn):
                     return self.FakeDDTable()
                 
+        # TODO switch win32/others
+        import DDS_WRAPPER.DDSW as DDSW
+        DDS = DDSW.DDS()
+        
         # ---hand--------------------------------------- 
 
         contracts = {
-            dds.NOTRUMP  : {},
-            dds.SPADES   : {},
-            dds.HEARTS   : {},
-            dds.DIAMONDS : {},
-            dds.CLUBS    : {},
+            DDS.NOTRUMP  : {},
+            DDS.SPADES   : {},
+            DDS.HEARTS   : {},
+            DDS.DIAMONDS : {},
+            DDS.CLUBS    : {},
         }  # type: Dict[int, Dict[Any,Any]]
         
         pbn = self.to_pbn()
         
-        r = dds.calc_dd_table(pbn)
+        r = DDS.calc_dd_table(pbn)
             
         for i in range(0, 5):
             for j in range(0,4):
-                if r.data(i,j) < 7:
+                if r.resTable[i][j] < 7:
                     contracts[i][j] = "-"
                 else:
-                    contracts[i][j] = str(r.data(i,j) - 6)
+                    contracts[i][j] = str(r.resTable[i][j] - 6)
 
         template = Template('''
 <html>
@@ -889,7 +898,7 @@ td, th {
 </body>
 </html>
 ''')
-        return template.render(c=contracts, dds=dds)
+        return template.render(c=contracts, dds=DDS)
 
     def get_dds_results(self) -> str:
         """
@@ -901,27 +910,33 @@ td, th {
         C     3     3     9     9
         """
         try:
-            import dds
+            # TODO switch win32/others
+            import DDS_WRAPPER.DDSW as DDSW
+            DDS = DDSW.DDS()
         except Exception as e:
             raise DealNoDDS
         
+        # TODO switch win32/others
+        import DDS_WRAPPER.DDSW as DDSW
+        DDS = DDSW.DDS()
+
         pbn = self.to_pbn()
-        r = dds.calc_dd_table(pbn)
+        r = DDS.calc_dd_table(pbn)
         
         contracts = {
-            dds.NOTRUMP  : {},
-            dds.SPADES   : {},
-            dds.HEARTS   : {},
-            dds.DIAMONDS : {},
-            dds.CLUBS    : {},
+            DDS.NOTRUMP  : {},
+            DDS.SPADES   : {},
+            DDS.HEARTS   : {},
+            DDS.DIAMONDS : {},
+            DDS.CLUBS    : {},
         }  # type: Dict[int, Dict[Any,Any]]
         
         for i in range(0, 5):
             for j in range(0,4):
-                if r.data(i,j) < 7:
+                if r.resTable[i][j] < 7:
                     contracts[i][j] = "-"
                 else:
-                    contracts[i][j] = str(r.data(i,j) - 6)
+                    contracts[i][j] = str(r.resTable[i][j] - 6)
 
         template = Template('''
              North South East  West 
@@ -931,7 +946,7 @@ td, th {
         ♦     {{c[dds.DIAMONDS][dds.NORTH]}}     {{c[dds.DIAMONDS][dds.SOUTH]}}     {{c[dds.DIAMONDS][dds.EAST]}}     {{c[dds.DIAMONDS][dds.WEST]}}
         ♣     {{c[dds.CLUBS][dds.NORTH]}}     {{c[dds.CLUBS][dds.SOUTH]}}     {{c[dds.CLUBS][dds.EAST]}}     {{c[dds.CLUBS][dds.WEST]}}
         ''')
-        return template.render(c=contracts, dds=dds)
+        return template.render(c=contracts, dds=DDS)
           
     def get_deal_html(self) -> str:
         '''
@@ -1079,7 +1094,7 @@ td, th {
             
             hands = [ self.hand["N"], self.hand["S"], self.hand["E"], self.hand["W"] ]
 
-                
+
             for hand in hands:
                 hand.generate_handle_target_points(items)
                 items = items - set(hand.cards)
@@ -1094,7 +1109,7 @@ td, th {
 
             for hand in hands:
                 hand.generate_real_distribution()
-                
+     
             hands = [ self.hand["N"], self.hand["S"], self.hand["E"], self.hand["W"] ]
             hands = sorted(hands, key=self.hand_prio_distribution, reverse=True)
 
