@@ -1,15 +1,13 @@
-
-
 '''
 a wrapper around the dds ctypes "wrapper" dds.py
 '''
 
-import os
 import ctypes
 
-import dds
 import hands
 import functions
+import dds
+
 
 class DDS:
     '''
@@ -77,3 +75,5 @@ if __name__ == '__main__':
 
     res = DDS.calc_dd_table(pbn)
     DDS.print_dd_table(res)
+
+    print(res.resTable[2][2])

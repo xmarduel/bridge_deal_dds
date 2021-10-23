@@ -20,7 +20,7 @@ from ctypes import *
 
 if sys.platform == 'win32':
     os.add_dll_directory("C:\\msys64\\mingw64\\bin")
-    dds = WinDLL("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\dds.dll")
+    dds = WinDLL("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_WRAPPER\\dds.dll")
 else:
     dds = cdll.LoadLibrary("/usr/lib/libdds.so")
 
