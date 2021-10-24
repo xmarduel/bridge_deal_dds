@@ -20,7 +20,8 @@ for handno in range(3):
 
 	if res != dds.RETURN_NO_FAULT:
 		dds.ErrorMessage(res, line)
-		print("DDS error: {}".format(line.encode("utf-8")))
+		print("DDS error: {}".format(line.value))
+		continue
 
 	match = functions.CompareTable(myTable, handno)
 

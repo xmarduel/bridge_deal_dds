@@ -50,7 +50,7 @@ class DDS:
             line = ctypes.create_string_buffer(80)
 
             dds.ErrorMessage(res, line)
-            print("DDS error: {}".format(line.encode("utf-8")))
+            print("DDS error: {}".format(line.value))
             return None
         else:
             line = ctypes.create_string_buffer(80)

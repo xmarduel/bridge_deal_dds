@@ -401,6 +401,73 @@
                     "CLUBS": ""
                 }
             }
+        },
+        {
+            "NAME": "xavie-N12-S12-E10-Wx",
+            "NORTH": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": 5,
+                    "HEARTS": 5,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "KQ",
+                    "HEARTS": "A",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "SOUTH": {
+                "POINTS": 10,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "EAST": {
+                "POINTS": 12,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            },
+            "WEST": {
+                "POINTS": -1,
+                "DISTRIBUTION": {
+                    "TYPE": "DETERMINISTIC",
+                    "SPADES": -1,
+                    "HEARTS": -1,
+                    "DIAMONDS": -1,
+                    "CLUBS": -1
+                },
+                "CARDS": {
+                    "SPADES": "",
+                    "HEARTS": "",
+                    "DIAMONDS": "",
+                    "CLUBS": ""
+                }
+            }
         }
     ],
     "DEALS": [
