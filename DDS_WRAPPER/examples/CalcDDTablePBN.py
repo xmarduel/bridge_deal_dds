@@ -5,6 +5,7 @@ import functions
 import dds
 import ctypes
 
+
 tableDealPBN = dds.ddTableDealPBN()
 table = dds.ddTableResults()
 myTable = ctypes.pointer(table)
