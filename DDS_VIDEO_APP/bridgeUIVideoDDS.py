@@ -18,12 +18,12 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtMultimedia import QMediaCaptureSession
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimedia import QCameraDevice, QMediaDevices, QCamera, QVideoSink
-from PySide6.QtMultimediaWidgets import QVideoWidget
 
 from deal import Card
 from bridgeHandView import BridgeHandView
 from bridgeDDSView import BridgeDDSView
-
+from bridgeVideoWidget import BridgeVideoWidget
+from bridgeVideoGraphicsView import BridgeVideoGraphicsView
 
 class VideoDDSMainWindow(QtWidgets.QMainWindow):
     """
@@ -39,50 +39,60 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
 
         self.window.pushButtonCalcDDS.clicked.connect(self.cb_dds)
 
-        
-        # captured cards view
-        self.hand_view = BridgeHandView()
-        self.window.capturedHandView.layout().addWidget(self.hand_view)
-        # test captured cards view
-        self.display_captured_cards()
-
         # the deal or similarly said the 4 hands for DDS
         self.dealOK = False
         self.deal = None
 
+        # hand view (captured cards)
+        self.hand_view = BridgeHandView()
+        self.window.HandViewContainer.layout().addWidget(self.hand_view)
+        # test captured cards view
+        self.display_hand()
+
+        
         # dds view
-        self.window.textBrowserShowDDS.setLayout(QtWidgets.QHBoxLayout())
-        self.display_dds_widget = BridgeDDSView()
-        self.window.textBrowserShowDDS.layout().addWidget(self.display_dds_widget)
+        self.dds_view = BridgeDDSView()
+        self.window.DDSViewContainer.layout().addWidget(self.dds_view)
         # test dds view
         self.cb_dds()
 
 
-        # video output ---------------------------------------------------
-        video = self.window.videoView
-        self.preview = QVideoWidget()
+        with_graphics_view = True
+        with_graphics_view = False
 
-        video.setLayout(QtWidgets.QHBoxLayout())
-        video.layout().addWidget(self.preview, 1)
+        # video output ---------------------------------------------------
+        if with_graphics_view:
+            self.video_graphics_view = BridgeVideoGraphicsView(self)
+            self.window.VideoViewContainer.layout().addWidget(self.video_graphics_view)
+
+            self.video_graphics_view.open_and_play_video("./IMG_0770_0720x1280.MOV")
+
+        else:
+            self.video_view = BridgeVideoWidget(self)
+            self.window.VideoViewContainer.layout().addWidget(self.video_view)
+
+            self.video_view.open_and_play_video("./IMG_0770_0720x1280.MOV")
 
         self.player = None
         self.camera = None
             
+        return
+        
         # MEDIA PLAYER
         case = 1
             
         # CAMERA
         case = 2
-            
+        case = 0   
             
         if case == 1:
                 
             self.player = QMediaPlayer()
             self.player.setSource(QtCore.QUrl("http://example.com/myclip1.mp4"))
 
-            self.player.setVideoOutput(self.preview)
+            self.player.setVideoOutput(self.video_view)
 
-            self.preview.show()
+            self.video_view.show()
             self.player.play()
 
         if case == 2:
@@ -130,17 +140,16 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         '''
         pbn = "N:KQ964.AK763.J6.Q AJ8.J5.Q92.KJ964 7.T42.AT84.AT875 T532.Q98.K753.32"
 
-        self.display_dds_widget.display_dds(pbn)
+        self.dds_view.display_dds(pbn)
         
-    def display_captured_cards(self):
+    def display_hand(self):
         '''
-        fill handView
+        fill hand_view
         '''
         # IR results
-        self.captured_cards = [Card.S_2, Card.H_6, Card.C_K, Card.C_6, Card.C_9, Card.H_J, Card.H_Q, Card.D_9, Card.D_J, Card.D_Q, Card.D_5, Card.D_6, Card.C_7]
-        #self.captured_cards = [Card.S_2, Card.H_6]
+        self.hand = [Card.S_2, Card.H_6, Card.C_K, Card.C_6, Card.C_9, Card.H_J, Card.H_Q, Card.D_9, Card.D_J, Card.D_Q, Card.D_5, Card.D_6, Card.C_7]
 
-        self.hand_view.display_cards(self.captured_cards)
+        self.hand_view.display_cards(self.hand)
 
 
 def loadUi(uifile, baseinstance=None):
