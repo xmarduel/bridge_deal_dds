@@ -1,111 +1,87 @@
 
-from PySide6 import QtCore, QtGui, QtWidgets, QtMultimedia
-from PySide6.QtGui import QPaintDevice, QPainter, QPixmap
+from PySide6 import QtCore
+from PySide6 import QtGui
+from PySide6 import QtWidgets
+
+from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
-from PySide6.QtWidgets import QGraphicsItem, QGraphicsPixmapItem, QGraphicsRectItem, QGraphicsView, QStyleOptionGraphicsItem, QWidget
+from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem, QGraphicsView
    
-from PySide6.QtMultimedia import QMediaPlayer, QVideoFrame, QVideoFrameFormat
+from PySide6.QtMultimedia import QVideoFrame, QVideoFrameFormat, QVideoSink
 from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
 
 
-class BridgeVideoGraphicsVideoItem(QGraphicsVideoItem):
+
+class BridgeMediaPlayerVideoSink(QVideoSink):
     '''
     '''
-    def __init__(self):
+    def __init__(self, video_item: QGraphicsVideoItem, graphics_view: QGraphicsView):
         super().__init__()
 
-    def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem, widget: QWidget = None):
-        '''
-        '''
-        super().paint(painter, option, widget)
-
-
-class BridgeVideoGraphicsVideoItemVideoSink(QtMultimedia.QVideoSink):
-    '''
-    '''
-    def __init__(self, player: QMediaPlayer, video_item: QGraphicsVideoItem, view: QGraphicsView):
-        super().__init__(player)
-
-        self.player = player
         self.video_item = video_item
-        self.view = view
+        self.graphics_view = graphics_view
 
-        self.video_frame = None
+        self.vs = None
 
         self.pixmap_item = None
         self.rect_item = None
 
         self.videoFrameChanged.connect(self.grabbedFrame)
 
-    #def videoFrame(self):
-    #    print("DDSVideoSink::videoFrame")
-    #    return super().videoFrame()
-
-    #def setVideoFrame(self, frame):
-    #    '''
-    #    '''
-    #    print("DDSVideoSink::setVideoFrame")
-    #    return super().setVideoFrame(frame)
-
-    def paint(self):
-        print("DDSVideoSink::paint")
-
-        if self.video_frame != None:
-            painter = QPainter()
-            painter.drawImage(0, 0, self.video_frame.toImage())
-            painter.drawText(10, 10, "YYY")
-            painter.fillRect(20, 20, 20, 20, QtCore.Qt.red)
-
-            super().paint()
-
     def grabbedFrame(self, video_frame: QVideoFrame):
-        #print("DDSVideoSink::grabbedFrame", video_frame)
+        print("DDSVideoSink::grabbedFrame", video_frame)
 
-        self.video_frame = video_frame
+        WITH_SCENE = True
+        WITH_SCENE = False
 
-
-        #data = video_frame.map(QVideoFrame.ReadWrite)
-        #print("DDSVideoSink::grabbedFrame data", data)
-
-
-        painter = QPainter()  # which QPainterDevice device  ?
-        painter.drawImage(0, 0, video_frame.toImage())
-        painter.drawText(10, 10, "YYY")
-        painter.fillRect(20, 20, 20, 20, QtCore.Qt.red)
-
-        option = QStyleOptionGraphicsItem(QStyleOptionGraphicsItem.SO_GraphicsItem)
-        self.video_item.paint(painter, option, None)
+        if WITH_SCENE:
         
-        
+            img = video_frame.toImage()
 
-        video_frame_size = video_frame.size()
-        w = video_frame_size.width()
-        h = video_frame_size.height()
+            video_frame_size = video_frame.size()
+            w = video_frame_size.width()
+            h = video_frame_size.height()
     
-        view_w = self.view.width()
-        view_h = self.view.height()
+            view_w = self.graphics_view.width()
+            view_h = self.graphics_view.height()
 
-        factor = max(w/view_w, h/view_h)
+            factor = max(w/view_w, h/view_h)
 
-        ww = int(w/factor) - 2
-        hh = int(h/factor) - 2
+            ww = int(w/factor) - 2
+            hh = int(h/factor) - 2 
 
-        
+            # write directly to the scene
+            if self.pixmap_item == None:
+                self.pixmap_item = QGraphicsPixmapItem(QPixmap(img).scaled(ww,hh))
+                self.graphics_view.scene().addItem(self.pixmap_item)
+            else:
+                self.pixmap_item.setPixmap(QPixmap(img).scaled(ww,hh))
 
-        #return 
+            if self.rect_item == None:
+                self.rect_item = QGraphicsRectItem(100,100,50,50)
+                self.graphics_view.scene().addItem(self.rect_item)
 
-        img = video_frame.toImage()
-        # still not optimal, I would like to draw inside the VideoItem...
-        if self.pixmap_item == None:
-            self.pixmap_item = QGraphicsPixmapItem(QPixmap(img).scaled(ww,hh))
-            self.view.scene().addItem(self.pixmap_item)
         else:
-            self.pixmap_item.setPixmap(QPixmap(img).scaled(ww,hh))
 
-        if self.rect_item == None:
-            self.rect_item = QGraphicsRectItem(100,100,50,50)
-            self.view.scene().addItem(self.rect_item)
+            ### https://stackoverflow.com/questions/69432427/how-to-use-qvideosink-in-qml-in-qt6
 
+            if ( (not video_frame.isValid()) or (not video_frame.map(QVideoFrame.WriteOnly))):
+                QtCore.qWarning("QVideoFrame is not valid or not writable")
+                return
+    
+            image_format = QVideoFrameFormat.imageFormatFromPixelFormat(video_frame.pixelFormat())
+            if (image_format == QtGui.QImage.Format_Invalid) :
+                QtCore.qWarning("It is not possible to obtain image format from the pixel format of the videoframe")
+                return
+    
+            plane = 0
+            image = QtGui.QImage(video_frame.bits(plane), video_frame.width(),video_frame.height(), image_format) # bits missing !!!
+            painter = QPainter(image)
+            painter.fillRect(20, 20, 220, 220, QtCore.Qt.blue)
+            painter.drawText(image.rect(), QtGui.Qt.AlignCenter, QtCore.QDateTime.currentDateTime().toString())
+            painter.end()
+            video_frame.unmap()
 
+            self.video_item.videoSink().setVideoFrame(video_frame)
+            
 
-       

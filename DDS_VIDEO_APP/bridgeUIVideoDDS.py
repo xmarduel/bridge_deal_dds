@@ -58,7 +58,7 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
 
 
         with_graphics_view = True
-        with_graphics_view = False
+        #with_graphics_view = False
 
         # video output ---------------------------------------------------
         if with_graphics_view:
