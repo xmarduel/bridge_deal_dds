@@ -33,7 +33,7 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         """
         QtWidgets.QMainWindow.__init__(self)
         
-        self.window = loadUi('bridgeWUiVideoDDS.ui', self)
+        self.window = loadUi('bridgeUiVideoDDS.ui', self)
         
         self.setCentralWidget(self.window)
 

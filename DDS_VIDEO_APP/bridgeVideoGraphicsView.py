@@ -6,7 +6,7 @@ from PySide6 import QtWidgets
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
 
-from bridgeVideoGraphicsViewItemVideoSink import BridgeMediaPlayerVideoSink
+from bridgeMediaPlayerVideoSink import BridgeMediaPlayerVideoSink
    
 
 class BridgeVideoGraphicsView(QtWidgets.QGraphicsView):
