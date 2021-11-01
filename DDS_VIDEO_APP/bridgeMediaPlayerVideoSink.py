@@ -1,7 +1,6 @@
 
 from PySide6 import QtCore
 from PySide6 import QtGui
-from PySide6 import QtWidgets
 
 from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
@@ -10,7 +9,10 @@ from PySide6.QtWidgets import QGraphicsPixmapItem, QGraphicsRectItem, QGraphicsV
 from PySide6.QtMultimedia import QVideoFrame, QVideoFrameFormat, QVideoSink
 from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
 
+from bridgeYoloImageRecognition import YoloImageRecognition
 
+import numpy as np
+import cv2
 
 class BridgeMediaPlayerVideoSink(QVideoSink):
     '''
@@ -36,7 +38,7 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
 
         if WITH_SCENE:
         
-            img = video_frame.toImage()
+            image = video_frame.toImage()
 
             video_frame_size = video_frame.size()
             w = video_frame_size.width()
@@ -52,10 +54,10 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
 
             # write directly to the scene
             if self.pixmap_item == None:
-                self.pixmap_item = QGraphicsPixmapItem(QPixmap(img).scaled(ww,hh))
+                self.pixmap_item = QGraphicsPixmapItem(QPixmap(image).scaled(ww,hh))
                 self.graphics_view.scene().addItem(self.pixmap_item)
             else:
-                self.pixmap_item.setPixmap(QPixmap(img).scaled(ww,hh))
+                self.pixmap_item.setPixmap(QPixmap(image).scaled(ww,hh))
 
             if self.rect_item == None:
                 self.rect_item = QGraphicsRectItem(100,100,50,50)
@@ -64,6 +66,7 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
         else:
 
             ### https://stackoverflow.com/questions/69432427/how-to-use-qvideosink-in-qml-in-qt6
+            np_image = self.QImageToCvMat(image = video_frame.toImage())
 
             if ( (not video_frame.isValid()) or (not video_frame.map(QVideoFrame.WriteOnly))):
                 QtCore.qWarning("QVideoFrame is not valid or not writable")
@@ -75,13 +78,34 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
                 return
     
             plane = 0
-            image = QtGui.QImage(video_frame.bits(plane), video_frame.width(),video_frame.height(), image_format) # bits missing !!!
+            image = QtGui.QImage(video_frame.bits(plane), video_frame.width(),video_frame.height(), image_format)
             painter = QPainter(image)
-            painter.fillRect(20, 20, 220, 220, QtCore.Qt.blue)
-            painter.drawText(image.rect(), QtGui.Qt.AlignCenter, QtCore.QDateTime.currentDateTime().toString())
+
+            # YOLO PROCESSING / augment the image during the processing
+            yolo = YoloImageRecognition(np_image, painter, {
+                "nb_classes" : 52,
+                "confidence" : 0.9,
+                "threshold"  : 0.9,
+                "yolotrainingsize" : 512
+            })
+            yolo.process()
+
             painter.end()
             video_frame.unmap()
 
             self.video_item.videoSink().setVideoFrame(video_frame)
             
 
+    def QImageToCvMat(self, image):
+        '''  Converts a QImage into an opencv MAT format  '''
+        # take care the conversion format !
+        # Format_RGB888 seems to swap R and B !!!
+        image = image.convertToFormat(QtGui.QImage.Format.Format_BGR888)
+
+        width = image.width()
+        height = image.height()
+
+        ptr = image.constBits()
+        arr = np.array(ptr).reshape(height, width, 3)  #  Copies the data
+
+        return arr

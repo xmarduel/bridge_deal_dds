@@ -7,6 +7,14 @@
             "program": "bridgeUIVideoDDS.py",
             "console": "integratedTerminal",
             "cwd":"C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_VIDEO_APP"
+        },
+        {
+            "name": "TEST CONVERT",
+            "type": "python",
+            "request": "launch",
+            "program": "zzz_test_im_convert.py",
+            "console": "integratedTerminal",
+            "cwd":"C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_VIDEO_APP"
         }
     ]
 }

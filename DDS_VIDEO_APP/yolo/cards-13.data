@@ -1,0 +1,6 @@
+classes = 13
+train = cardsets_scenes/cardset-american1sym--no-rand-scenes-13/train.txt
+valid = cardsets_scenes/cardset-american1sym--no-rand-scenes-13/valid.txt
+names = cards-13.names
+backup = backup-13
+
