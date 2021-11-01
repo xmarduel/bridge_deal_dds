@@ -62,13 +62,13 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
             self.video_graphics_view = BridgeVideoGraphicsView(self)
             self.window.VideoViewContainer.layout().addWidget(self.video_graphics_view)
 
-            self.video_graphics_view.open_and_play_video("./IMG_0770_0720x1280.MOV")
+            self.video_graphics_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
 
         else:
             self.video_view = BridgeVideoWidget(self)
             self.window.VideoViewContainer.layout().addWidget(self.video_view)
 
-            self.video_view.open_and_play_video("./IMG_0770_0720x1280.MOV")
+            self.video_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
 
         self.player = None
         self.camera = None
