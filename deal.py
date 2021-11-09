@@ -1109,7 +1109,7 @@ td, th {
 
             for hand in hands:
                 hand.generate_real_distribution()
-     
+
             hands = [ self.hand["N"], self.hand["S"], self.hand["E"], self.hand["W"] ]
             hands = sorted(hands, key=self.hand_prio_distribution, reverse=True)
 
