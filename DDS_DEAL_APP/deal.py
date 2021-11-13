@@ -17,7 +17,7 @@ from colorama import Style
 
 from jinja2 import Template
 
-sys.path.append("./DDS_WRAPPER")
+sys.path.append("..")
 
 
 class DealError(Exception):

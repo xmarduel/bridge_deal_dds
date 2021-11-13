@@ -76,4 +76,9 @@ if __name__ == '__main__':
     res = DDS.calc_dd_table(pbn)
     DDS.print_dd_table(res)
 
-    print(res.resTable[2][2])
+    # how to access single elements of the table
+    print("Accessing single elements of the table:")
+    for i in range(4):
+        for j in range(4):
+            print("  table[%d][%d] = %d" % (i,j,res.resTable[i][j]))
+        print("  -------------------------")

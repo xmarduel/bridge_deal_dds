@@ -8,7 +8,8 @@ import cv2
 def main():
     '''
     '''
-    image_name = "C:\\Users\\xavie\\Documents\\BRIDGE\\AI\\YOLO\\training\\backup-52-yolo4-american1sym--no-rand-2020.12.16\\cardsets_scenes\\cardset-american1sym--no-rand-scenes-52\\check000920500.jpg"
+    image_name = "test\\2h.png"
+    #image_name = "test\\check000968279.jpg"
     
     
     cv_image = cv2.imread(image_name)
@@ -17,11 +18,16 @@ def main():
     image2 = QtGui.QImage(image_name)
     #ff = image2.format()
     image2_ptr = image2.constBits()
-        
-    image2_ptr_arr = np.array(image2_ptr).reshape(750, 750, 4)
 
-    for i in range(750):
-        for j in range(750):
+    w = image2.width()
+    h = image2.height()
+
+    print("image-2: nb bits = %d (%d*%d*4 = %d)" % (len(image2_ptr), w, h, w*h*4))
+        
+    image2_ptr_arr = np.array(image2_ptr).reshape(h, w, 4)
+
+    for i in range(h):
+        for j in range(w):
             #print("---------------------------------")
             dat1 = cv_image[i][j]
             dat2 = image2_ptr_arr[i][j]
@@ -35,16 +41,27 @@ def main():
                 print(dat1)
                 print(dat2)
         
+    nb_bits_per_line = image2.bytesPerLine()
 
     #image3 = image2.convertToFormat(QtGui.QImage.Format.Format_RGB888)
     image3 = image2.convertToFormat(QtGui.QImage.Format.Format_BGR888)
     image3_ptr = image3.constBits()
-    # strange, 2 bits added at each line -> 750*2 = 1500 bits too much  ?????
-    image3_ptr_arr = np.array(image3_ptr).reshape(563000, 3)  #  Copies the data
+
+    #print("image-3: nb bits = %d (%d*%d*3 + 1500 = %d)" % (len(image3_ptr), h, w, h*w*3 + h*2))
+    print("image-3: nb bits = %d (%d*%d*3 + 600 = %d)" % (len(image3_ptr), h, w, h*w*3 + h*2))
+
+    # strange, 2 bits added at each line -> w*2 = 1500 bits too much  ?????
+    # strange, 2 bits added at each line -> w*2 =  600 bits too much  ?????
+    image3_ptr_arr = np.array(image3_ptr).reshape(563000, 3) 
 
 
-    for i in range(750):
-        for j in range(750):
+    try:
+        image3_ptr_arr_xx = np.array(image3_ptr).reshape(h*w, 3)
+    except Exception as e:
+        print(e)
+
+    for i in range(h):
+        for j in range(w):
 
             k = 750*i + j
 
@@ -60,6 +77,7 @@ def main():
                 print("---------------------------------", k, i, j)
                 print("dat2", dat2)
                 print("dat3", dat3)
+                break
 
 
         

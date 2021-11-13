@@ -1,5 +1,6 @@
 {
     "configurations": [
+
         {
             "name": "bridgeUIVideoDDS",
             "type": "python",
@@ -15,6 +16,14 @@
             "program": "zzz_test_im_convert.py",
             "console": "integratedTerminal",
             "cwd":"C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_VIDEO_APP"
+        },
+        {
+            "name": "DEAL DDS",
+            "type": "python",
+            "request": "launch",
+            "program": "bridgeUI.py",
+            "console": "integratedTerminal",
+            "cwd":"C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_DEAL_APP"
         }
     ]
 }
