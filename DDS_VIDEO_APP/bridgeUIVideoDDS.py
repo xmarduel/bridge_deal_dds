@@ -9,7 +9,6 @@ from PySide6 import QtCore
 from PySide6 import QtGui
 from PySide6 import QtWidgets
 
-from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtUiTools import QUiLoader
 
 from PySide6.QtMultimedia import QMediaCaptureSession
@@ -17,9 +16,10 @@ from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimedia import QCameraDevice, QMediaDevices, QCamera, QVideoSink
 
 from deal import Card
-from bridgeHandView import BridgeHandView
-from bridgeDDSView import BridgeDDSView
-from bridgeVideoWidget import BridgeVideoWidget
+
+import bridgeHandView
+import bridgeDDSView
+
 from bridgeVideoGraphicsView import BridgeVideoGraphicsView
 
 class VideoDDSMainWindow(QtWidgets.QMainWindow):
@@ -30,7 +30,7 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         """
         QtWidgets.QMainWindow.__init__(self)
         
-        self.window = loadUi('bridgeUiVideoDDS.ui', self)
+        self.window = self.load_ui('bridgeUiVideoDDS.ui')
         
         self.setCentralWidget(self.window)
 
@@ -41,56 +41,28 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         self.deal = None
 
         # hand view (captured cards)
-        self.hand_view = BridgeHandView()
-        self.window.HandViewContainer.layout().addWidget(self.hand_view)
+        self.hand_view = self.window.hand_view
+        self.hand = [Card.S_5, Card.H_J] ## test hand view
         # test captured cards view
         self.display_hand()
 
-        
-        # dds view
-        self.dds_view = BridgeDDSView()
-        self.window.DDSViewContainer.layout().addWidget(self.dds_view)
-        # test dds view
-        self.cb_dds()
-
-
-        with_graphics_view = True
-        #with_graphics_view = False
+        # dds view 
+        self.dds_view = self.window.dds_view
+        self.cb_dds() ## test dds view
 
         # video output ---------------------------------------------------
-        if with_graphics_view:
-            self.video_graphics_view = BridgeVideoGraphicsView(self)
-            self.window.VideoViewContainer.layout().addWidget(self.video_graphics_view)
+        self.video_graphics_view = BridgeVideoGraphicsView(self)
+        self.window.VideoViewContainer.layout().addWidget(self.video_graphics_view)
 
-            self.video_graphics_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
+        self.video_graphics_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
 
-        else:
-            self.video_view = BridgeVideoWidget(self)
-            self.window.VideoViewContainer.layout().addWidget(self.video_view)
-
-            self.video_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
-
-        self.player = None
-        self.camera = None
-            
         return
-        
+
         # MEDIA PLAYER
         case = 1
-            
+        
         # CAMERA
         case = 2
-        case = 0   
-            
-        if case == 1:
-                
-            self.player = QMediaPlayer()
-            self.player.setSource(QtCore.QUrl("http://example.com/myclip1.mp4"))
-
-            self.player.setVideoOutput(self.video_view)
-
-            self.video_view.show()
-            self.player.play()
 
         if case == 2:
 
@@ -139,24 +111,27 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
 
         self.dds_view.display_dds(pbn)
         
+    def set_hand_labels(self, labels):
+        '''
+        '''
+        self.hand = self.hand_view.hand_from_labels(labels)
+
     def display_hand(self):
         '''
         fill hand_view
         '''
-        # IR results
-        self.hand = [Card.S_2, Card.H_6, Card.C_K, Card.C_6, Card.C_9, Card.H_J, Card.H_Q, Card.D_9, Card.D_J, Card.D_Q, Card.D_5, Card.D_6, Card.C_7]
-
         self.hand_view.display_cards(self.hand)
 
+    def load_ui(self, uifile):
+        '''
+        '''
+        loader = QUiLoader(self)
+        loader.registerCustomWidget(bridgeDDSView.BridgeDDSView)
+        loader.registerCustomWidget(bridgeHandView.BridgeHandView)
+        
+        window = loader.load(uifile)
 
-def loadUi(uifile, baseinstance=None):
-    '''
-    '''
-    loader = QUiLoader(baseinstance)
-
-    window = loader.load(uifile)
-
-    return window
+        return window
 
 
 def main():

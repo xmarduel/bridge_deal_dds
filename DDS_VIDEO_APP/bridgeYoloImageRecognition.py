@@ -37,7 +37,7 @@ class YoloImageRecognition:
             print("set training size for images - mandatory - with which size did you made the training?")
             sys.exit(1)
 
-        print("LABELS", self.LABELS)
+        #print("LABELS", self.LABELS)
         
         # check
         if not os.path.exists(weightsFile):
@@ -54,6 +54,9 @@ class YoloImageRecognition:
         self.net = cv2.dnn.readNetFromDarknet(configFile, weightsFile)
 
     def process(self):
+        '''
+        return the labels found by YOLO 
+        '''
         print("[INFO] loading YOLO from disk...")
     
         # determine only the *output* layer names that we need from YOLO
@@ -69,13 +72,15 @@ class YoloImageRecognition:
         blob = cv2.dnn.blobFromImage(self.image, 1 / 255.0, (self.img_training_size, self.img_training_size), swapRB=True, crop=False)
         self.net.setInput(blob)
         layerOutputs = self.net.forward(ln)    
-        self.process_image("video_frame", self.image, layerOutputs)
+        labels = self.process_image("video_frame", self.image, layerOutputs)
 
         end = time.time()
         
         # show timing information on YOLO
         print("[INFO] YOLO took: %.6f seconds  -- %s" % ((end - start), "video_frame") )
        
+        return labels
+
     def getProcessingData(self, image, layerOutputs):
         
         # load our input image and grab its spatial dimensions
@@ -121,7 +126,9 @@ class YoloImageRecognition:
         return (boxes, confidences, classIDs)
         
     def process_image(self, image_name, image, layerOutputs):
-        ''' '''
+        ''' 
+        return the labels found by YOLO 
+        '''
         boxes, confidences, classIDs = self.getProcessingData(image, layerOutputs)
         
         # apply non-maxima suppression to suppress weak, overlapping bounding boxes
@@ -146,6 +153,10 @@ class YoloImageRecognition:
                 text = "{}: {:.3f}".format(self.LABELS[classIDs[i]], confidences[i])
                 self.painter.drawText(x, y-5, text)
     
+        if len(idxs) > 0:
+            return list(set([ self.LABELS[classIDs[i]] for i in idxs.flatten() ]))
+        else:
+            return []
 
 #[INFO] loading YOLO from disk...
 #[INFO] YOLO took 0.347815 seconds
