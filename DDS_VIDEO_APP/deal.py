@@ -237,6 +237,9 @@ class Hand:
         
         self.distribution_type = "FIXED"  # "RANDOM"    
 
+    def reset(self):
+        self.cards = []  # type: List[Card]
+        
     def __repr__(self) -> str:
         return self.get_compact_repr()
     
@@ -737,6 +740,15 @@ class Deal:
             "E" : Hand("E"),
         }  # type: Dict[str,Hand]
 
+    def reset(self):
+        '''
+        empty deal
+        '''
+        self.hand["N"].reset()
+        self.hand["S"].reset()
+        self.hand["W"].reset()
+        self.hand["E"].reset()
+        
     def print(self):
         print("--------------------------")
         print(self.hand["N"].get_std_repr())

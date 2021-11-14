@@ -4,6 +4,7 @@ VERSION = "0_0_1"
 
 import os
 import sys
+import copy
 
 from PySide6 import QtCore
 from PySide6 import QtGui
@@ -16,6 +17,8 @@ from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimedia import QCameraDevice, QMediaDevices, QCamera, QVideoSink
 
 from deal import Card
+from deal import Hand
+from deal import Deal
 
 import bridgeHandView
 import bridgeDDSView
@@ -34,21 +37,23 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         
         self.setCentralWidget(self.window)
 
+        # the captured cards, to become a valid hand - hopefully -
+        self.yolo_cards = []
+        # the deal (the 4 hands) for DDS
+        self.deal = Deal()
+
         self.window.pushButtonCalcDDS.clicked.connect(self.cb_dds)
+        self.window.pushButtonNord.clicked.connect(self.cb_set_hand_nord)
+        self.window.pushButtonSud.clicked.connect(self.cb_set_hand_sud)
+        self.window.pushButtonWest.clicked.connect(self.cb_set_hand_west)
+        self.window.pushButtonEast.clicked.connect(self.cb_set_hand_east)
 
-        # the deal or similarly said the 4 hands for DDS
-        self.dealOK = False
-        self.deal = None
-
-        # hand view (captured cards)
-        self.hand_view = self.window.hand_view
-        self.hand = [Card.S_5, Card.H_J] ## test hand view
-        # test captured cards view
-        self.display_hand()
+        # captured cards view
+        self.yolo_cards_view = self.window.hand_view
 
         # dds view 
         self.dds_view = self.window.dds_view
-        self.cb_dds() ## test dds view
+        self.dds_view.hide()
 
         # video output ---------------------------------------------------
         self.video_graphics_view = BridgeVideoGraphicsView(self)
@@ -104,23 +109,77 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
 
         # video output ---------------------------------------------------
         
+    def dds_enable(self):
+        '''
+        '''
+        enabled = True
+        
+        if len(self.deal.hand['N'].cards) != 13:
+            enabled = False
+        if len(self.deal.hand['S'].cards) != 13:
+            enabled = False
+        if len(self.deal.hand['W'].cards) != 13:
+            enabled = False
+        if len(self.deal.hand['E'].cards) != 13:
+            enabled = False
+
+        self.window.pushButtonCalcDDS.setEnabled(enabled)
+        
     def cb_dds(self):
         '''
         '''
-        pbn = "N:KQ964.AK763.J6.Q AJ8.J5.Q92.KJ964 7.T42.AT84.AT875 T532.Q98.K753.32"
+        pbn = self.deal.to_pbn()
 
+        self.dds_view.show()
         self.dds_view.display_dds(pbn)
-        
-    def set_hand_labels(self, labels):
-        '''
-        '''
-        self.hand = self.hand_view.hand_from_labels(labels)
 
-    def display_hand(self):
+    def reset_deal(self):
         '''
-        fill hand_view
+        '''    
+        self.deal.reset()
+
+    def cb_set_hand_nord(self):
         '''
-        self.hand_view.display_cards(self.hand)
+        '''
+        if len(self.yolo_cards) == 13:
+            self.deal.hand["N"].cards = copy.deepcopy(self.yolo_cards)
+
+    def cb_set_hand_sud(self):
+        '''
+        '''
+        if len(self.yolo_cards) == 13:
+            self.deal.hand["S"].cards = copy.deepcopy(self.yolo_cards)
+
+    def cb_set_hand_west(self):
+        '''
+        '''
+        if len(self.yolo_cards) == 13:
+            self.deal.hand["W"].cards = copy.deepcopy(self.yolo_cards)
+
+    def cb_set_hand_east(self):
+        '''
+        '''
+        if len(self.yolo_cards) == 13:
+            self.deal.hand["E"].cards = copy.deepcopy(self.yolo_cards)
+        
+    def set_yolo_cards_from_labels(self, labels):
+        '''
+        '''
+        self.yolo_cards = self.yolo_cards_view.hand_from_labels(labels)
+
+        # display it
+        self.yolo_cards_view.display_cards(self.yolo_cards)
+
+        # can it be assigned to the deal ?
+        enabled = (len(self.yolo_cards) == 13)
+            
+        # enable/disable hand selection
+        self.window.pushButtonNord.setEnabled(enabled)
+        self.window.pushButtonSud.setEnabled(enabled)
+        self.window.pushButtonWest.setEnabled(enabled)
+        self.window.pushButtonEast.setEnabled(enabled)
+
+        self.dds_enable()
 
     def load_ui(self, uifile):
         '''

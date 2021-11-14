@@ -12,7 +12,7 @@ from PySide6.QtMultimediaWidgets import QGraphicsVideoItem
 from bridgeYoloImageRecognition import YoloImageRecognition
 
 import numpy as np
-import cv2
+
 
 class BridgeMediaPlayerVideoSink(QVideoSink):
     '''
@@ -61,9 +61,8 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
 
         self.video_item.videoSink().setVideoFrame(video_frame)
 
-        # and fill the list of cards in the main window
-        self.graphics_view.main_window.set_hand_labels(labels)
-        self.graphics_view.main_window.display_hand()
+        # and fill the list of cards in the main window as a (partially) hand
+        self.graphics_view.main_window.set_yolo_cards_from_labels(labels)
             
 
     def QImageToCvMat(self, image):
