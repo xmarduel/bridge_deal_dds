@@ -12,10 +12,10 @@ from bridgeMediaPlayerVideoSink import BridgeMediaPlayerVideoSink
 class BridgeVideoGraphicsView(QtWidgets.QGraphicsView):
     '''
     '''
-    def __init__(self, main_window):
-        super().__init__()
+    def __init__(self, parent=None):
+        QtWidgets.QGraphicsView.__init__(self, parent)
 
-        self.main_window = main_window
+        self.main_window = None
         self.url = None
 
         self.thescene = QtWidgets.QGraphicsScene()
@@ -38,6 +38,12 @@ class BridgeVideoGraphicsView(QtWidgets.QGraphicsView):
        
         self.show()
 
+    def set_main_window(self, main_window):
+        '''
+        '''
+        self.main_window = main_window
+        self.video_item.setSize(self.eval_video_item_size())
+    
     def eval_video_item_size(self):
         '''
         '''

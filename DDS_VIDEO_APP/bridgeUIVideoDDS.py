@@ -55,9 +55,8 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         self.dds_view.hide()
 
         # video output ---------------------------------------------------
-        self.video_view = bridgeVideoGraphicsView.BridgeVideoGraphicsView(self)
-        self.window.VideoViewContainer.layout().addWidget(self.video_view)
-
+        self.video_view = self.window.video_view
+        self.video_view.set_main_window(self)
         self.video_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
 
         return
@@ -186,7 +185,7 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         loader = QUiLoader(self)
         loader.registerCustomWidget(bridgeDDSView.BridgeDDSView)
         loader.registerCustomWidget(bridgeHandView.BridgeHandView)
-        #loader.registerCustomWidget(bridgeVideoGraphicsView.BridgeVideoGraphicsView)
+        loader.registerCustomWidget(bridgeVideoGraphicsView.BridgeVideoGraphicsView)
         
         window = loader.load(uifile)
 
