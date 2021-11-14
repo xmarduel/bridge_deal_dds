@@ -97,6 +97,10 @@
           <height>64</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">enabled {background-color: rgb(0, 170, 0);}
+disabled {background-color:#ff0000;}</string>
+        </property>
         <property name="text">
          <string>West</string>
         </property>
@@ -110,6 +114,10 @@
           <height>64</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">enabled {background-color: rgb(0, 170, 0);}
+disabled {background-color:#ff0000;}</string>
+        </property>
         <property name="text">
          <string>Sud</string>
         </property>
@@ -122,10 +130,6 @@
           <width>0</width>
           <height>64</height>
          </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">enabled {background-color: rgb(0, 170, 0);}
-disabled {background-color:#ff0000;}</string>
         </property>
         <property name="text">
          <string>DDS</string>
@@ -156,6 +160,10 @@ disabled {background-color:#ff0000;}</string>
           <width>0</width>
           <height>64</height>
          </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">enabled {background-color: rgb(0, 170, 0);}
+disabled {background-color:#ff0000;}</string>
         </property>
         <property name="text">
          <string>Nord</string>
