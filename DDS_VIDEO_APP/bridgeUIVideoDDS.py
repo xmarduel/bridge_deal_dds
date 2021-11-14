@@ -47,10 +47,10 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         self.window.pushButtonWest.clicked.connect(self.cb_set_hand_west)
         self.window.pushButtonEast.clicked.connect(self.cb_set_hand_east)
 
-        # captured cards view
-        self.yolo_cards_view = self.window.hand_view
+        # captured cards view with yolo ----------------------------------
+        self.yolo_cards_view = self.window.yolo_cards_view
 
-        # dds view 
+        # dds view -------------------------------------------------------
         self.dds_view = self.window.dds_view
         self.dds_view.hide()
 
@@ -58,6 +58,13 @@ class VideoDDSMainWindow(QtWidgets.QMainWindow):
         self.video_view = self.window.video_view
         self.video_view.set_main_window(self)
         self.video_view.open_and_play_video("./test/IMG_0770_0720x1280.MOV")
+
+        # hand selection view --------------------------------------------
+        self.hand_selection_view = self.window.hand_selection_view
+       
+
+
+
 
         return
 

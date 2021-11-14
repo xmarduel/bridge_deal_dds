@@ -37,7 +37,7 @@
     </widget>
    </item>
    <item>
-    <widget class="BridgeHandView" name="hand_view" native="true">
+    <widget class="BridgeHandView" name="yolo_cards_view" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -64,7 +64,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="hand_selection" native="true">
+    <widget class="QWidget" name="hand_selection_view" native="true">
      <property name="minimumSize">
       <size>
        <width>0</width>
