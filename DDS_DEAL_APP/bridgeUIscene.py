@@ -27,6 +27,8 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
 
         self.grabbedItem = None
 
+        self.YY = 200  # reference height
+
         self.make_default_scene()
         self.display_deal()
 
@@ -34,6 +36,26 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         self.spinboxS.valueChanged.connect(self.cb_set_target_points_S)
         self.spinboxE.valueChanged.connect(self.cb_set_target_points_E)
         self.spinboxW.valueChanged.connect(self.cb_set_target_points_W)
+
+        self.spinboxNbSpadesN.valueChanged.connect(self.cb_set_target_distribution_S_N)
+        self.spinboxNbHeartsN.valueChanged.connect(self.cb_set_target_distribution_H_N)
+        self.spinboxNbDiamsN.valueChanged.connect(self.cb_set_target_distribution_D_N)
+        self.spinboxNbClubsN.valueChanged.connect(self.cb_set_target_distribution_C_N)
+
+        self.spinboxNbSpadesS.valueChanged.connect(self.cb_set_target_distribution_S_S)
+        self.spinboxNbHeartsS.valueChanged.connect(self.cb_set_target_distribution_H_S)
+        self.spinboxNbDiamsS.valueChanged.connect(self.cb_set_target_distribution_D_S)
+        self.spinboxNbClubsS.valueChanged.connect(self.cb_set_target_distribution_C_S)
+
+        self.spinboxNbSpadesW.valueChanged.connect(self.cb_set_target_distribution_S_W)
+        self.spinboxNbHeartsW.valueChanged.connect(self.cb_set_target_distribution_H_W)
+        self.spinboxNbDiamsW.valueChanged.connect(self.cb_set_target_distribution_D_W)
+        self.spinboxNbClubsW.valueChanged.connect(self.cb_set_target_distribution_C_W)
+
+        self.spinboxNbSpadesE.valueChanged.connect(self.cb_set_target_distribution_S_E)
+        self.spinboxNbHeartsE.valueChanged.connect(self.cb_set_target_distribution_H_E)
+        self.spinboxNbDiamsE.valueChanged.connect(self.cb_set_target_distribution_D_E)
+        self.spinboxNbClubsE.valueChanged.connect(self.cb_set_target_distribution_C_E)
 
         self.target_area = {
             "N": {"x1": 200, "x2": 300, "y1": 0, "y2": 200},
@@ -59,15 +81,101 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         """ """
         self.deal.hand["W"].target_points = value
 
+    def redraw(self):
+        self.delete_unknown_items()
+        self.display_play_cards()
+        self.display_deal()
+
+    def cb_set_target_distribution_S_N(self, value):
+        """ """
+        self.deal.hand["N"].target_distribution[Color.SPADES] = value
+        self.redraw()
+
+    def cb_set_target_distribution_H_N(self, value):
+        """ """
+        self.deal.hand["N"].target_distribution[Color.HEARTS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_D_N(self, value):
+        """ """
+        self.deal.hand["N"].target_distribution[Color.DIAMONDS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_C_N(self, value):
+        """ """
+        print("NORTH CLUBS -> ", value)
+        self.deal.hand["N"].target_distribution[Color.CLUBS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_S_S(self, value):
+        """ """
+        self.deal.hand["S"].target_distribution[Color.SPADES] = value
+        self.redraw()
+
+    def cb_set_target_distribution_H_S(self, value):
+        """ """
+        self.deal.hand["S"].target_distribution[Color.HEARTS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_D_S(self, value):
+        """ """
+        self.deal.hand["S"].target_distribution[Color.DIAMONDS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_C_S(self, value):
+        """ """
+        self.deal.hand["S"].target_distribution[Color.CLUBS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_S_W(self, value):
+        """ """
+        self.deal.hand["W"].target_distribution[Color.SPADES] = value
+        self.redraw()
+
+    def cb_set_target_distribution_H_W(self, value):
+        """ """
+        self.deal.hand["W"].target_distribution[Color.HEARTS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_D_W(self, value):
+        """ """
+        self.deal.hand["W"].target_distribution[Color.DIAMONDS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_C_W(self, value):
+        """ """
+        self.deal.hand["W"].target_distribution[Color.CLUBS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_S_E(self, value):
+        """ """
+        self.deal.hand["E"].target_distribution[Color.SPADES] = value
+        self.redraw()
+
+    def cb_set_target_distribution_H_E(self, value):
+        """ """
+        self.deal.hand["E"].target_distribution[Color.HEARTS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_D_E(self, value):
+        """ """
+        self.deal.hand["E"].target_distribution[Color.DIAMONDS] = value
+        self.redraw()
+
+    def cb_set_target_distribution_C_E(self, value):
+        """ """
+        self.deal.hand["E"].target_distribution[Color.CLUBS] = value
+        self.redraw()
+
     def make_default_scene(self):
         """ """
         # deal layout - table
-        self.addRect(200, 200, 100, 100)
+        self.addRect(200, self.YY, 100, 100)
         # with annotations
-        self.addText("N").setPos(240, 200)
-        self.addText("S").setPos(240, 280)
-        self.addText("E").setPos(285, 240)
-        self.addText("W").setPos(200, 240)
+        self.addText("N").setPos(240, self.YY)
+        self.addText("S").setPos(240, self.YY + 80)
+        self.addText("E").setPos(285, self.YY + 40)
+        self.addText("W").setPos(200, self.YY + 40)
 
         # user input : target pts for each hand
         self.spinboxN = QtWidgets.QSpinBox()
@@ -95,17 +203,19 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         self.itemSpinboxE = itemSpinboxE = self.addWidget(self.spinboxE)
         self.itemSpinboxW = itemSpinboxW = self.addWidget(self.spinboxW)
 
-        itemSpinboxN.setPos(200, 170)
+        itemSpinboxN.setPos(200, self.YY - 30)
         itemSpinboxN.setMinimumSize(100, 20)
 
-        itemSpinboxS.setPos(200, 310)
+        itemSpinboxS.setPos(200, self.YY + 110)
         itemSpinboxS.setMinimumSize(100, 20)
 
-        itemSpinboxE.setPos(310, 200)
+        itemSpinboxE.setPos(310, self.YY)
         itemSpinboxE.setMinimumSize(100, 20)
 
-        itemSpinboxW.setPos(90, 200)
+        itemSpinboxW.setPos(90, self.YY)
         itemSpinboxW.setMinimumSize(100, 20)
+
+        # -- NORTH -------------------------------------------------------------
 
         # placeholder for the user hands with predefined card : the 4 colors
 
@@ -115,18 +225,56 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             "♦": 250,
             "♣": 275,
         }
-        y = 145
+        y = self.YY - 55
 
-        itemNP = self.addText("♠")
-        itemNP.setPos(x["♠"], y)
-        itemNC = self.addText("♥")
-        itemNC.setPos(x["♥"], y)
-        itemNK = self.addText("♦")
-        itemNK.setPos(x["♦"], y)
-        itemNT = self.addText("♣")
-        itemNT.setPos(x["♣"], y)
-        itemNC.setDefaultTextColor(QtGui.QColor("red"))
-        itemNK.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemNP = self.addText("♠")
+        self.itemNP.setPos(x["♠"], y)
+        self.itemNC = self.addText("♥")
+        self.itemNC.setPos(x["♥"], y)
+        self.itemNK = self.addText("♦")
+        self.itemNK.setPos(x["♦"], y)
+        self.itemNT = self.addText("♣")
+        self.itemNT.setPos(x["♣"], y)
+        self.itemNC.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemNK.setDefaultTextColor(QtGui.QColor("red"))
+
+        # user input : target number of card for each color ---------
+
+        self.spinboxNbSpadesN = QtWidgets.QSpinBox()
+        self.spinboxNbHeartsN = QtWidgets.QSpinBox()
+        self.spinboxNbDiamsN = QtWidgets.QSpinBox()
+        self.spinboxNbClubsN = QtWidgets.QSpinBox()
+
+        self.spinboxNbSpadesN.setMaximum(13)
+        self.spinboxNbSpadesN.setMinimum(-1)
+
+        self.spinboxNbHeartsN.setMaximum(13)
+        self.spinboxNbHeartsN.setMinimum(-1)
+
+        self.spinboxNbDiamsN.setMaximum(13)
+        self.spinboxNbDiamsN.setMinimum(-1)
+
+        self.spinboxNbClubsN.setMaximum(13)
+        self.spinboxNbClubsN.setMinimum(-1)
+
+        self.itemSpinboxNbSpadesN = self.addWidget(self.spinboxNbSpadesN)
+        self.itemSpinboxNbHeartsN = self.addWidget(self.spinboxNbHeartsN)
+        self.itemSpinboxNbDiamsN = self.addWidget(self.spinboxNbDiamsN)
+        self.itemSpinboxNbClubsN = self.addWidget(self.spinboxNbClubsN)
+
+        self.itemSpinboxNbSpadesN.setPos(x["♠"] - 8, self.YY - 75)
+        self.itemSpinboxNbSpadesN.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbHeartsN.setPos(x["♥"] - 4, self.YY - 75)
+        self.itemSpinboxNbHeartsN.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbDiamsN.setPos(x["♦"] + 0, self.YY - 75)
+        self.itemSpinboxNbDiamsN.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbClubsN.setPos(x["♣"] + 4, self.YY - 75)
+        self.itemSpinboxNbClubsN.setMaximumSize(29, 20)
+
+        # -- SOUTH -------------------------------------------------------------
 
         x = {
             "♠": 200,
@@ -134,17 +282,55 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             "♦": 250,
             "♣": 275,
         }
-        y = 330
-        itemSP = self.addText("♠")
-        itemSP.setPos(x["♠"], y)
-        itemSC = self.addText("♥")
-        itemSC.setPos(x["♥"], y)
-        itemSK = self.addText("♦")
-        itemSK.setPos(x["♦"], y)
-        itemST = self.addText("♣")
-        itemST.setPos(x["♣"], y)
-        itemSC.setDefaultTextColor(QtGui.QColor("red"))
-        itemSK.setDefaultTextColor(QtGui.QColor("red"))
+        y = self.YY + 130
+
+        self.itemSP = self.addText("♠")
+        self.itemSP.setPos(x["♠"], y)
+        self.itemSC = self.addText("♥")
+        self.itemSC.setPos(x["♥"], y)
+        self.itemSK = self.addText("♦")
+        self.itemSK.setPos(x["♦"], y)
+        self.itemST = self.addText("♣")
+        self.itemST.setPos(x["♣"], y)
+        self.itemSC.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemSK.setDefaultTextColor(QtGui.QColor("red"))
+
+        # user input : target number of card for each color ---------
+        self.spinboxNbSpadesS = QtWidgets.QSpinBox()
+        self.spinboxNbHeartsS = QtWidgets.QSpinBox()
+        self.spinboxNbDiamsS = QtWidgets.QSpinBox()
+        self.spinboxNbClubsS = QtWidgets.QSpinBox()
+
+        self.spinboxNbSpadesS.setMaximum(13)
+        self.spinboxNbSpadesS.setMinimum(-1)
+
+        self.spinboxNbHeartsS.setMaximum(13)
+        self.spinboxNbHeartsS.setMinimum(-1)
+
+        self.spinboxNbDiamsS.setMaximum(13)
+        self.spinboxNbDiamsS.setMinimum(-1)
+
+        self.spinboxNbClubsS.setMaximum(13)
+        self.spinboxNbClubsS.setMinimum(-1)
+
+        self.itemSpinboxNbSpadesS = self.addWidget(self.spinboxNbSpadesS)
+        self.itemSpinboxNbHeartsS = self.addWidget(self.spinboxNbHeartsS)
+        self.itemSpinboxNbDiamsS = self.addWidget(self.spinboxNbDiamsS)
+        self.itemSpinboxNbClubsS = self.addWidget(self.spinboxNbClubsS)
+
+        self.itemSpinboxNbSpadesS.setPos(x["♠"] - 8, self.YY + 155)
+        self.itemSpinboxNbSpadesS.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbHeartsS.setPos(x["♥"] - 4, self.YY + 155)
+        self.itemSpinboxNbHeartsS.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbDiamsS.setPos(x["♦"] + 0, self.YY + 155)
+        self.itemSpinboxNbDiamsS.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbClubsS.setPos(x["♣"] + 4, self.YY + 155)
+        self.itemSpinboxNbClubsS.setMaximumSize(29, 20)
+
+        # -- EAST -------------------------------------------------------------
 
         x = {
             "♠": 310,
@@ -152,18 +338,55 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             "♦": 360,
             "♣": 385,
         }
-        y = 220
+        y = self.YY + 20
 
-        itemEP = self.addText("♠")
-        itemEP.setPos(x["♠"], y)
-        itemEC = self.addText("♥")
-        itemEC.setPos(x["♥"], y)
-        itemEK = self.addText("♦")
-        itemEK.setPos(x["♦"], y)
-        itemET = self.addText("♣")
-        itemET.setPos(x["♣"], y)
-        itemEC.setDefaultTextColor(QtGui.QColor("red"))
-        itemEK.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemEP = self.addText("♠")
+        self.itemEP.setPos(x["♠"], y)
+        self.itemEC = self.addText("♥")
+        self.itemEC.setPos(x["♥"], y)
+        self.itemEK = self.addText("♦")
+        self.itemEK.setPos(x["♦"], y)
+        self.itemET = self.addText("♣")
+        self.itemET.setPos(x["♣"], y)
+        self.itemEC.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemEK.setDefaultTextColor(QtGui.QColor("red"))
+
+        # user input : target number of card for each color ---------
+        self.spinboxNbSpadesE = QtWidgets.QSpinBox()
+        self.spinboxNbHeartsE = QtWidgets.QSpinBox()
+        self.spinboxNbDiamsE = QtWidgets.QSpinBox()
+        self.spinboxNbClubsE = QtWidgets.QSpinBox()
+
+        self.spinboxNbSpadesE.setMaximum(13)
+        self.spinboxNbSpadesE.setMinimum(-1)
+
+        self.spinboxNbHeartsE.setMaximum(13)
+        self.spinboxNbHeartsE.setMinimum(-1)
+
+        self.spinboxNbDiamsE.setMaximum(13)
+        self.spinboxNbDiamsE.setMinimum(-1)
+
+        self.spinboxNbClubsE.setMaximum(13)
+        self.spinboxNbClubsE.setMinimum(-1)
+
+        self.itemSpinboxNbSpadesE = self.addWidget(self.spinboxNbSpadesE)
+        self.itemSpinboxNbHeartsE = self.addWidget(self.spinboxNbHeartsE)
+        self.itemSpinboxNbDiamsE = self.addWidget(self.spinboxNbDiamsE)
+        self.itemSpinboxNbClubsE = self.addWidget(self.spinboxNbClubsE)
+
+        self.itemSpinboxNbSpadesE.setPos(x["♠"] - 8, self.YY + 45)
+        self.itemSpinboxNbSpadesE.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbHeartsE.setPos(x["♥"] - 4, self.YY + 45)
+        self.itemSpinboxNbHeartsE.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbDiamsE.setPos(x["♦"] + 0, self.YY + 45)
+        self.itemSpinboxNbDiamsE.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbClubsE.setPos(x["♣"] + 4, self.YY + 45)
+        self.itemSpinboxNbClubsE.setMaximumSize(29, 20)
+
+        # -- WEST -------------------------------------------------------------
 
         x = {
             "♠": 90,
@@ -171,18 +394,54 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             "♦": 140,
             "♣": 165,
         }
-        y = 220
+        y = self.YY + 20
 
-        itemWP = self.addText("♠")
-        itemWP.setPos(x["♠"], y)
-        itemWC = self.addText("♥")
-        itemWC.setPos(x["♥"], y)
-        itemWK = self.addText("♦")
-        itemWK.setPos(x["♦"], y)
-        itemWT = self.addText("♣")
-        itemWT.setPos(x["♣"], y)
-        itemWC.setDefaultTextColor(QtGui.QColor("red"))
-        itemWK.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemWP = self.addText("♠")
+        self.itemWP.setPos(x["♠"], y)
+        self.itemWC = self.addText("♥")
+        self.itemWC.setPos(x["♥"], y)
+        self.itemWK = self.addText("♦")
+        self.itemWK.setPos(x["♦"], y)
+        self.itemWT = self.addText("♣")
+        self.itemWT.setPos(x["♣"], y)
+        self.itemWC.setDefaultTextColor(QtGui.QColor("red"))
+        self.itemWK.setDefaultTextColor(QtGui.QColor("red"))
+
+        # user input : target number of card for each color ---------
+        self.spinboxNbSpadesW = QtWidgets.QSpinBox()
+        self.spinboxNbHeartsW = QtWidgets.QSpinBox()
+        self.spinboxNbDiamsW = QtWidgets.QSpinBox()
+        self.spinboxNbClubsW = QtWidgets.QSpinBox()
+
+        self.spinboxNbSpadesW.setMaximum(13)
+        self.spinboxNbSpadesW.setMinimum(-1)
+
+        self.spinboxNbHeartsW.setMaximum(13)
+        self.spinboxNbHeartsW.setMinimum(-1)
+
+        self.spinboxNbDiamsW.setMaximum(13)
+        self.spinboxNbDiamsW.setMinimum(-1)
+
+        self.spinboxNbClubsW.setMaximum(13)
+        self.spinboxNbClubsW.setMinimum(-1)
+
+        self.itemSpinboxNbSpadesW = self.addWidget(self.spinboxNbSpadesW)
+        self.itemSpinboxNbHeartsW = self.addWidget(self.spinboxNbHeartsW)
+        self.itemSpinboxNbDiamsW = self.addWidget(self.spinboxNbDiamsW)
+        self.itemSpinboxNbClubsW = self.addWidget(self.spinboxNbClubsW)
+
+        self.itemSpinboxNbSpadesW.setPos(x["♠"] - 8, self.YY + 45)
+        self.itemSpinboxNbSpadesW.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbHeartsW.setPos(x["♥"] - 4, self.YY + 45)
+        self.itemSpinboxNbHeartsW.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbDiamsW.setPos(x["♦"] + 0, self.YY + 45)
+        self.itemSpinboxNbDiamsW.setMaximumSize(29, 20)
+
+        self.itemSpinboxNbClubsW.setPos(x["♣"] + 4, self.YY + 45)
+        self.itemSpinboxNbClubsW.setMaximumSize(29, 20)
+        # ---------------------------------------------------------------
 
         # the game cards to select into the user cards
         self.populate_card_item()
@@ -421,17 +680,18 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             item = self.card_item[card]
             self.item_card[item] = card
 
-        self.unknown_cards = []
+        self.unknown_cards = {"N": [], "S": [], "W": [], "E": []}
 
         self.make_cards_play()
         self.display_play_cards()
 
     def delete_unknown_items(self):
         """ """
-        for item in self.unknown_cards:
-            self.removeItem(item)
+        for pos in list(self.unknown_cards.keys()):
+            for item in self.unknown_cards[pos]:
+                self.removeItem(item)
 
-        self.unknown_cards = []
+        self.unknown_cards = {"N": [], "S": [], "W": [], "E": []}
 
     def make_cards_play(self):
         """ """
@@ -468,6 +728,58 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         self.spinboxE.setValue(self.deal.hand["E"].target_points)
         self.spinboxW.setValue(self.deal.hand["W"].target_points)
 
+        self.spinboxNbSpadesN.setValue(
+            self.deal.hand["N"].target_distribution[Color.SPADES]
+        )
+        self.spinboxNbHeartsN.setValue(
+            self.deal.hand["N"].target_distribution[Color.HEARTS]
+        )
+        self.spinboxNbDiamsN.setValue(
+            self.deal.hand["N"].target_distribution[Color.DIAMONDS]
+        )
+        self.spinboxNbClubsN.setValue(
+            self.deal.hand["N"].target_distribution[Color.CLUBS]
+        )
+
+        self.spinboxNbSpadesS.setValue(
+            self.deal.hand["S"].target_distribution[Color.SPADES]
+        )
+        self.spinboxNbHeartsS.setValue(
+            self.deal.hand["S"].target_distribution[Color.HEARTS]
+        )
+        self.spinboxNbDiamsS.setValue(
+            self.deal.hand["S"].target_distribution[Color.DIAMONDS]
+        )
+        self.spinboxNbClubsS.setValue(
+            self.deal.hand["S"].target_distribution[Color.CLUBS]
+        )
+
+        self.spinboxNbSpadesW.setValue(
+            self.deal.hand["W"].target_distribution[Color.SPADES]
+        )
+        self.spinboxNbHeartsW.setValue(
+            self.deal.hand["W"].target_distribution[Color.HEARTS]
+        )
+        self.spinboxNbDiamsW.setValue(
+            self.deal.hand["W"].target_distribution[Color.DIAMONDS]
+        )
+        self.spinboxNbClubsW.setValue(
+            self.deal.hand["W"].target_distribution[Color.CLUBS]
+        )
+
+        self.spinboxNbSpadesE.setValue(
+            self.deal.hand["E"].target_distribution[Color.SPADES]
+        )
+        self.spinboxNbHeartsE.setValue(
+            self.deal.hand["E"].target_distribution[Color.HEARTS]
+        )
+        self.spinboxNbDiamsE.setValue(
+            self.deal.hand["E"].target_distribution[Color.DIAMONDS]
+        )
+        self.spinboxNbClubsE.setValue(
+            self.deal.hand["E"].target_distribution[Color.CLUBS]
+        )
+
         self.display_hand("N")
         self.display_hand("S")
         self.display_hand("E")
@@ -503,10 +815,10 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         }
 
         initial_y_position = {
-            "N": 145,
-            "S": 350,
-            "W": 240,
-            "E": 240,
+            "N": self.YY - 80,
+            "S": self.YY + 180,
+            "W": self.YY + 75,
+            "E": self.YY + 75,
         }
 
         # for N, we have to get the max nb of cards in each colors in order
@@ -565,7 +877,7 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
             if missing > 0:
                 for c in range(missing):
                     item = QtWidgets.QGraphicsPixmapItem(self.pixmaps["UNKNOWN"])
-                    self.unknown_cards.append(item)
+                    self.unknown_cards[pos].append(item)
                     self.addItem(item)
                     item.setPos(x, y)
                     y += 30
@@ -588,6 +900,53 @@ class BridgeUIscene(QtWidgets.QGraphicsScene):
         ):
             QtWidgets.QGraphicsScene.mousePressEvent(self, mouseEvent)
             return
+
+        if grabbedItem in (
+            self.itemNP,
+            self.itemNC,
+            self.itemNK,
+            self.itemNT,
+            self.itemSP,
+            self.itemSC,
+            self.itemSK,
+            self.itemST,
+            self.itemWP,
+            self.itemWC,
+            self.itemWK,
+            self.itemWT,
+            self.itemEP,
+            self.itemEC,
+            self.itemEK,
+            self.itemET,
+        ):
+            QtWidgets.QGraphicsScene.mousePressEvent(self, mouseEvent)
+            return
+
+        # ------------------------------------------------------------------
+        try:
+            if grabbedItem in (
+                self.itemSpinboxNbSpadesN,
+                self.itemSpinboxNbHeartsN,
+                self.itemSpinboxNbDiamsN,
+                self.itemSpinboxNbClubsN,
+                self.itemSpinboxNbSpadesS,
+                self.itemSpinboxNbHeartsS,
+                self.itemSpinboxNbDiamsS,
+                self.itemSpinboxNbClubsS,
+                self.itemSpinboxNbSpadesW,
+                self.itemSpinboxNbHeartsW,
+                self.itemSpinboxNbDiamsW,
+                self.itemSpinboxNbClubsW,
+                self.itemSpinboxNbSpadesE,
+                self.itemSpinboxNbHeartsE,
+                self.itemSpinboxNbDiamsE,
+                self.itemSpinboxNbClubsE,
+            ):
+                QtWidgets.QGraphicsScene.mousePressEvent(self, mouseEvent)
+                return
+        except Exception:
+            pass
+        # ------------------------------------------------------------------
 
         self.grabbedItem = grabbedItem
 

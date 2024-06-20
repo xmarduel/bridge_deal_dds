@@ -292,17 +292,44 @@ class Hand:
         """
         returns an integer function of the prio when considering distribution
         """
-        if self.target_points == -1:
-            return 0
-        if self.target_distribution == self.default_distribution:
-            return 1
-        return (
-            len(self.target_cards[Color.SPADES])
-            + len(self.target_cards[Color.HEARTS])
-            + len(self.target_cards[Color.DIAMONDS])
-            + len(self.target_cards[Color.CLUBS])
-            + 2
+        if False:
+            if self.target_points == -1:
+                return 0
+            if self.target_distribution == self.default_distribution:
+                return 1
+
+            return (
+                len(self.target_cards[Color.SPADES])
+                + len(self.target_cards[Color.HEARTS])
+                + len(self.target_cards[Color.DIAMONDS])
+                + len(self.target_cards[Color.CLUBS])
+                + 2
+            )
+
+        nbS = (
+            self.target_distribution[Color.SPADES]
+            if self.target_distribution[Color.SPADES] != -1
+            else 0
         )
+        nbH = (
+            self.target_distribution[Color.HEARTS]
+            if self.target_distribution[Color.HEARTS] != -1
+            else 0
+        )
+        nbD = (
+            self.target_distribution[Color.DIAMONDS]
+            if self.target_distribution[Color.DIAMONDS] != -1
+            else 0
+        )
+        nbC = (
+            self.target_distribution[Color.CLUBS]
+            if self.target_distribution[Color.CLUBS] != -1
+            else 0
+        )
+
+        prio = nbS + nbH + nbD + nbC
+
+        return prio
 
     def cards_for_color(self, color: Color):
         cards = [card for card in self.cards if card.color() == color]
@@ -656,7 +683,7 @@ class Hand:
                         break
 
                     # pick 1 honour
-                    honour = random.sample(items_honours, 1)[0]
+                    honour = random.sample(list(items_honours), 1)[0]
 
                     items_honours = items_honours - set([honour])
                     self.cards.append(honour)
@@ -737,13 +764,14 @@ class Hand:
                     )
                     nbAll -= nb
 
-                    if nb > 0:
+                    if nb >= 0:
                         # get all cards of demanded color
                         itemsX = [card for card in items if card.color() == color]
                         if self.target_points > 0:
                             itemsX = [card for card in itemsX if card.val() == 0]
 
                         self.cards += random.sample(itemsX, nb)
+                        # remove all cards of this color for further processing (ie exact number of cards when len != -1  specified)
                         items = items - set(itemsX)
 
         self.logger.debug(
@@ -755,7 +783,7 @@ class Hand:
         # the rest
         if nbAll > 0:
             if self.target_points == -1:
-                self.cards += random.sample(items, nbAll)
+                self.cards += random.sample(list(items), nbAll)
             else:
                 # no honours, points are already processed
                 items = set([card for card in items if card.val() == 0])
@@ -768,7 +796,7 @@ class Hand:
                 nn = nbAll
                 if nn > len(items):
                     nn = len(items)
-                self.cards += random.sample(items, nn)
+                self.cards += random.sample(list(items), nn)
         else:
             pass
 
@@ -1193,7 +1221,7 @@ td, th {
         self.hand["W"].cards = []
         self.hand["E"].cards = []
 
-    def generate(self):
+    def generate(self) -> bool:
         """ """
         try:
             items = []
@@ -1237,14 +1265,18 @@ td, th {
 
             for hand in hands:
                 hand.generate(items)
+
                 items = items - set(hand.cards)
 
                 if len(hand.cards) < 13:
-                    self.logger.error("Failed to distribute cards for hand " % hand.pos)
+                    self.logger.error(
+                        "Failed to distribute cards for hand %s" % hand.pos
+                    )
 
             if len(items) > 0:
                 self.logger.error("Failed to distribute all cards...")
                 self.logger.error(items)
+                return False
 
         except DealBadSettingCardError as e:
             self.logger.error(DealBadSettingCardError.msg)
@@ -1276,6 +1308,8 @@ td, th {
         self.hand["E"].cards = sorted(
             self.hand["E"].cards, key=lambda card: card.id(), reverse=True
         )
+
+        return True
 
     def hand_prio_distribution(self, hand: Hand):
         return hand.prio_distribution()

@@ -15,20 +15,13 @@ from deal import Deal
 from deal import Color
 from deal import Card
 
-if sys.platform == 'win32':
-    from PySide6 import QtCore
-    from PySide6 import QtGui
-    from PySide6 import QtWidgets
+from PySide6 import QtCore
+from PySide6 import QtGui
+from PySide6 import QtWidgets
 
-    from PySide6.QtWebEngineWidgets import QWebEngineView
-    from PySide6.QtUiTools import QUiLoader
-else:
-    from PySide2 import QtCore
-    from PySide2 import QtGui
-    from PySide2 import QtWidgets
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtUiTools import QUiLoader
 
-    from PySide2.QtWebEngineWidgets import QWebEngineView
-    from PySide2.QtUiTools import QUiLoader
 
 import bridgeUIscene
 
@@ -353,32 +346,43 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         '''
         '''
         self.counter += 1
-        
-        pixmap = QtGui.QPixmap.grabWidget(self, rect = self.geometry())
-        
+
         filename = "deal-%s-%03d.png" % (self.template.name, self.counter)
-        
-        file = QtCore.QFile(filename)
-        file.open(QtCore.QIODevice.WriteOnly)
-        pixmap.save(file, "PNG")
+        self.widget.grab().save(filename)
 
     def cb_generate(self):
         '''
         '''
         self.template.reset()
-        self.template.generate()
+        res = self.template.generate()
+
+        cnt = 1
+
+        while res is False and cnt < 10 :
+
+            self.template.reset()
+            res = self.template.generate()
+
         
-        html = self.template.get_deal_html()
-        self.widget.webengineviewDealTable.setHtml(html)
+        if res:
+            html = self.template.get_deal_html()
+            self.widget.webengineviewDealTable.setHtml(html)
         
-        # jump in "deal" view
-        self.widget.tabWidget.setCurrentIndex(1)
+            # jump in "deal" view
+            self.widget.tabWidget.setCurrentIndex(1)
         
-        #print(html)
+            #print(html)
         
-        # reset this, need to call "DDS"
-        self.widget.textBrowserDDS.setText("")
-        self.cb_dds()
+            # reset this, need to call "DDS"
+            self.widget.textBrowserDDS.setText("")
+            self.cb_dds()
+        else:
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.setWindowTitle("Deal")
+            msgbox.setText("Failed to distribute: Retry!")
+            msgbox.setDefaultButton(QtWidgets.QMessageBox.Save)
+            msgbox.exec()
+
         
     def cb_dds(self):
         '''
@@ -423,7 +427,7 @@ def main():
     mainWin = BRIDGEMainWindow()
     mainWin.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':
