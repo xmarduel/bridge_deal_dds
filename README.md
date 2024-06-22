@@ -8,15 +8,17 @@ The deals can be generated fron so-called "templates" where for each hand (N/S/E
   - distribution (number of cards for each color or -1 for no constraints of the number of cards in each color
 
 After a deal generation, the dds ("analyse") is called.
-The double dummy solver is the one given by xxx
+The double dummy solver is the one given by xxx.
 
 Windows
 =======
 
-The dds.dll has to be properly loaded, i.e. the windows "path" env variable must contains the path to the mingw64 standard libs. In my case this is "C:\\MinGW64\\mingw64\\bin". 
+The dds.dll has to be properly loaded, i.e. the windows "path" environment variable must contain the path to the mingw64 standard libs. It has to be "C:\\MinGW64\\mingw64\\bin". 
 
-The DDS library has been compiled from sources with them (DDS source files are also given). In case of you do not have these MinGW64 libs, you won't be able to utilise the DDS analyser.
-To compile it, you have to install MinGW. I got it from
+The DDS library has been compiled from sources in linked with these libraries (DDS source files are also given). 
+In case of you do not have these libraries in this path, you won't be able to utilise the DDS analyser.
+
+To compile on your own the dss.dll, you have to install MinGW. I got it from
 - https://github.com/niXman/mingw-builds-binaries/releases
 
 and downloaded/installed (in C:\\MinGW64) the x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z package. 
@@ -29,6 +31,6 @@ The make utility was also needed: look for
 Apple
 =====
 
-The dds.so has to be properly loaded.  
+The dds.so has to be properly loaded.  *** TO COMPLETE ***
 
 
