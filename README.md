@@ -2,10 +2,10 @@
 
 A small python based program (GUI: PySide6)
 
-The deals can be generated fron so-called "templates" where for each hand (N/S/E/W) the following can be specified
+The deals can be generated from so-called "templates" where for each hand (N/S/E/W) the following constraints can be specified
   - specific cards
-  - number of points (or -1 for no constraint son points)
-  - distribution (number of cards for each color or -1 for no constraints of the number of cards in each color
+  - number of points (or -1 for no constraint on points)
+  - distribution (for each color the number of cards or -1 for no constraints on the number of cards)
 
 After a deal generation, the dds ("analyse") is called.
 The double dummy solver is the one given by xxx.
