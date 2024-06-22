@@ -131,6 +131,7 @@ static PyMethodDef TableResults_methods[] = {
     {NULL}  /* Sentinel */
 };
 
+/*
 static PyTypeObject TableResultsType = {
     PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "dds.TableResult",
@@ -145,6 +146,48 @@ static PyTypeObject TableResultsType = {
     .tp_methods = TableResults_methods,
 	
 	.tp_new = TableResults_new,
+};
+*/
+
+static PyTypeObject TableResultsType = {
+    PyVarObject_HEAD_INIT(NULL, 0)
+    "dds.TableResult", // tp_name
+    sizeof(TableResultsObject), // tp_basicsize
+	0, // tp_itemsize
+	(destructor) TableResults_dealloc, // tp_dealloc
+	0, // vectorcall_offset
+	0, // getattr
+	0, // setattr
+	0, // as_sync
+	NULL,   // tp_repr
+	0, // as_number
+	0, // as_sequence
+	0, // as_mapping
+	0, // hash
+	0, // call
+	0, // str
+	0, // getattro
+	0, // setattro
+	0, // as_buffer
+    Py_TPFLAGS_DEFAULT, // tp_flags
+	"TableResult objects", // tp_doc
+	0, // traverse
+	0, // clear
+	0, // richcompare
+	0, // weaklistoffset
+	0, // iter
+	0, // iternext
+	TableResults_methods, // tp_methods
+	0, //    .tp_members = TableResults_members,
+	0, // getset
+	0, // base
+	0, // dict
+	0, // descr_get
+	0, // descr-set
+	0, // dict_offset
+	0, // int
+	0, // alloc
+	TableResults_new, // tp_new
 };
 
 static PyObject* py_show_deal(PyObject* self, PyObject* args)

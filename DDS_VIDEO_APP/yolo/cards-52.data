@@ -1,6 +1,0 @@
-classes = 52 
-train = cardsets_scenes/cardset-american1sym--no-rand-scenes-52/train.txt
-valid = cardsets_scenes/cardset-american1sym--no-rand-scenes-52/valid.txt
-names = cards-52.names
-backup = VOC_CARDSET_COLAB/backup-52
-
