@@ -10,8 +10,18 @@ The deals can be generated from so-called "templates" where for each hand (N/S/E
 After a deal generation, the dds ("analyse") is called.
 The double dummy solver is the one given by xxx.
 
-Windows
-=======
+How to use ?
+============
+
+In the installation folder, type:
+
+> python bridgeUI.py
+
+The GUI pops-up. The default template is loaded and push the button "Generate".
+
+
+Windows - DDS
+=============
 
 The dds.dll has to be properly loaded, i.e. the windows "path" environment variable must contain the path to the mingw64 standard libs. It has to be "C:\\MinGW64\\mingw64\\bin". 
 
@@ -28,9 +38,12 @@ The make utility was also needed: look for
 - make-3.81-bin.zip
 - make-3.81-dep.zip
 
-Apple
-=====
+Apple - DDS
+===========
 
 The dds.so has to be properly loaded.  *** TO COMPLETE ***
 
+Linux - DDS
+===========
 
+Not event tried...
