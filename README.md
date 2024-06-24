@@ -8,7 +8,11 @@ The deals can be generated from so-called "templates" where for each hand (N/S/E
   - distribution (for each color the number of cards or -1 for no constraints on the number of cards)
 
 After a deal generation, the dds ("analyse") is called.
-The double dummy solver is the one given by xxx.
+The double dummy solver is the one given by (c) Bo Haglund 2006-2014, (c) Bo Haglund / Soren Hein 2014-2018.
+
+- https://github.com/dds-bridge/dds
+
+The source fules are duplicated here, and there is a small python wrapper on it
 
 How to use ?
 ============
@@ -31,7 +35,9 @@ In case of you do not have these libraries in this path, you won't be able to ut
 To compile on your own the dss.dll, you have to install MinGW. I got it from
 - https://github.com/niXman/mingw-builds-binaries/releases
 
-and downloaded/installed (in C:\\MinGW64) the x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z package. 
+and downloaded/installed (in C:\\MinGW64) the following package
+- x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z
+
 The DDS was compiled without the boost library to avoid extra dependencies.
 
 The make utility was also needed: look for
