@@ -59,6 +59,7 @@ Install them in C:\MinGW64\mingw-make and add this folder to your "Path" environ
 
 You are ready to compile de DDS source:
 > cd DDS
+
 > make
 
 Then copy the resulting dds.dll and libdds.a into the DDS_WRAPPER folder.
