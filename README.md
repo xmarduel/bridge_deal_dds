@@ -14,35 +14,54 @@ The double dummy solver is the one given by
 
 The source files are duplicated here, and there is a small python wrapper on it
 
-How to use ?
+Python dependencies
+===================
+
+- PySide6 (6.6.3)
+- jinja2
+- colorama
+
+Installation
 ============
 
-In the installation folder, type:
+Install all the source in a folder of your choice. Set a new environment variable "BRIDGE_DDS" to this installation folder. It contains, among others, the folders
+- DDS
+- DDS_WRAPPER
+- DDS_DEAL_APP
+
+Add the full path of the DDS_WRAPPER folder to your PYTHONPATH environment variable.
+
+From the installation folder, cd to DDS_DEAL_APP and type:
 
 > python bridgeUI.py
 
-The GUI pops-up. The default template is loaded and push the button "Generate".
+The GUI pops-up. The default template is loaded and push the button "Generate". But the DDS will certainly not work out of the box! Read the following.
 
 
 Windows - DDS
 =============
 
-The dds.dll has to be properly loaded, i.e. the windows "path" environment variable must contain the path to the mingw64 standard libs. It has to be "C:\\MinGW64\\mingw64\\bin". 
+The dds.dll has to be properly loaded, i.e. the windows "path" environment variable must contain the path to the MinGW standard libs. It has to be "C:\\MinGW64\\mingw64\\bin". 
 
-The DDS library has been compiled from sources in linked with these libraries (DDS source files are also given). 
-In case of you do not have these libraries in this path, you won't be able to utilise the DDS analyser.
-
-To compile on your own the dss.dll, you have to install MinGW. I got it from
+To install MinGW, perform the following steps: from
 - https://github.com/niXman/mingw-builds-binaries/releases
 
-and downloaded/installed (in C:\\MinGW64) the following package
+download and install (in C:\\MinGW64) the following package
 - x86_64-13.2.0-release-win32-seh-msvcrt-rt_v11-rev0.7z
 
-The DDS was compiled without the boost library to avoid extra dependencies.
+into the folder C:\MinGW64 (create it). Add the folder "C:\MinGW64\mingw64\bin" to your "Path" environment variable.
 
-The make utility was also needed: look for
+If you wish to compile the DDS library on your own, the make utility is needed: look for
 - make-3.81-bin.zip
 - make-3.81-dep.zip
+
+Install them in C:\MinGW64\mingw-make and add this folder to your "Path" environment variable.
+
+You are ready to compile de DDS source:
+> cd DDS
+> make
+
+Then copy the resulting dds.dll and libdds.a into the DDS_WRAPPER folder.
 
 Apple - DDS
 ===========
