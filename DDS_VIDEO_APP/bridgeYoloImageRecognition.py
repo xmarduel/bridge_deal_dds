@@ -67,6 +67,11 @@ class YoloImageRecognition:
         # ln = [ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
         self.ln = [ln[i - 1] for i in self.net.getUnconnectedOutLayers()]
 
+        self.idxs = []
+        self.boxes = None
+        self.classIDs = None
+        self.confidences = None
+
     def QImageToCvMat(self, image: QtGui.QImage) -> np.array:
         """Converts a QImage into an opencv MAT format"""
         # take care the conversion format !
@@ -84,14 +89,14 @@ class YoloImageRecognition:
 
         return arr
 
-    def process(self, image: QtGui.QImage) -> List[str]:
+    def process(self, cv_image: QtGui.QImage) -> List[str]:
         """
         return the labels found by YOLO
         """
         start = time.time()
 
         # print("[INFO] loading YOLO from disk...")
-        cv_image = self.QImageToCvMat(image)
+        # cv_image = self.QImageToCvMat(image)
 
         if cv_image is None:
             return []
@@ -123,8 +128,12 @@ class YoloImageRecognition:
         """
         boxes, confidences, classIDs = self.getProcessingData(cv_image, layerOutputs)
 
+        self.boxes = boxes
+        self.confidences = confidences
+        self.classIDs = classIDs
+
         # apply non-maxima suppression to suppress weak, overlapping bounding boxes
-        idxs = cv2.dnn.NMSBoxes(
+        self.idxs = idxs = cv2.dnn.NMSBoxes(
             boxes, confidences, self.args["confidence"], self.args["threshold"]
         )
 

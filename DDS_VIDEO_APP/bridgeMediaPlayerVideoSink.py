@@ -40,8 +40,6 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
         self.graphics_view = graphics_view
         self.video_item = graphics_view.video_item
 
-        self.annotation_items = []
-
         self.videoFrameChanged.connect(self.grabbedFrame)
 
         self.yolo = YoloImageRecognition(
@@ -53,67 +51,115 @@ class BridgeMediaPlayerVideoSink(QVideoSink):
             }
         )
 
-    def grabbedFrame(self, video_frame: QVideoFrame):
-        print("DDSVideoSink::grabbedFrame", video_frame)
+    def grabbedFrame(self, input_video_frame: QVideoFrame):
+        """
+        Has to create an empty video frame and fill it with the true image!
 
-        self.remove_annotations()
+        Because the input_video_frame has an Invalid video_image_format (strange)
 
-        self.video_frame = video_frame
+        With this empty video_frame and its **mapped** image, the paint
+        can put the real image inside it + labels boxes
+        """
+        print("DDSVideoSink::grabbedFrame", input_video_frame)
+
+        size = input_video_frame.size()
+        size.transpose()  # strange!
+
+        video_frame = QVideoFrame(
+            QVideoFrameFormat(size, QVideoFrameFormat.PixelFormat.Format_BGRA8888)
+        )
+
+        src_image = input_video_frame.toImage()
+
+        cv_image = self.QImageToCvMat(image=src_image)
+
+        if (not video_frame.isValid()) or (not video_frame.map(QVideoFrame.WriteOnly)):
+            QtCore.qWarning("QVideoFrame is not valid or not writable")
+            return
+
+        video_image_format = QVideoFrameFormat.imageFormatFromPixelFormat(
+            video_frame.pixelFormat()
+        )
+
+        if video_image_format == QtGui.QImage.Format_Invalid:
+            QtCore.qWarning(
+                "It is not possible to obtain image format from the pixel format of the videoframe"
+                + str(video_frame.pixelFormat()),
+            )
+            return
 
         ### https://stackoverflow.com/questions/69432427/how-to-use-qvideosink-in-qml-in-qt6
-        image = video_frame.toImage()
 
-        # video_frame.map(QVideoFrame.WriteOnly)
+        mapped_image = QtGui.QImage(
+            video_frame.bits(0), size.width(), size.height(), video_image_format
+        )
 
         # YOLO PROCESSING / find the labels and augment the image during the processing
         labels: List[str] = []
-        if False:
-            labels = self.yolo.process(image)
+        if True:
+            labels = self.yolo.process(cv_image)
 
-        # painter = QPainter(image)
-        # painter = QPainter(self.video_widget)
+        painter = QPainter(mapped_image)
+        self.paint_content(painter, src_image)
+        # self.paint_labels(painter)
+        painter.end()
 
-        # video_frame.paint(
-        #    painter,
-        #    QtCore.QRectF(0.0, 0.0, 700.0, 700.0),  # what is that
-        #    QVideoFrame.PaintOptions(),  # what is that
-        # )
-
-        # video_frame.setSubtitleText("Xavier")
-        # video_frame.unmap()
+        video_frame.unmap()
 
         self.video_item.videoSink().setVideoFrame(video_frame)
-        # self.setVideoFrame(video_frame)
-
-        self.annotate_scene()
 
         # and fill the list of cards in the main window as a (partially) hand
         if labels:
             print("LABELS:", labels)
             # self.graphics_view.main_window.set_yolo_cards_from_labels(labels)
 
-    def annotate_scene(self):
-        """
-        add extra to scene! but needs to be removed!
-        """
-        pen = QtGui.QPen()
-        pen.setColor(QtGui.QColor("red"))
-        pen.setWidth(3)
+    def QImageToCvMat(self, image):
+        """Converts a QImage into an opencv MAT format"""
+        # take care the conversion format !
+        # Format_RGB888 seems to swap R and B !!!
+        image = image.convertToFormat(QtGui.QImage.Format.Format_BGR888)
 
-        line = QtCore.QLineF(0, 0, 100 * random.random(), 100 * random.random())
-        item = QGraphicsLineItem(line)
+        width = image.width()
+        height = image.height()
 
-        self.graphics_view.the_scene.addLine(line, pen)
+        ptr = image.constBits()
+        arr = np.array(ptr).reshape(height, width, 3)  #  Copies the data
 
-        self.annotation_items.append(item)
+        return arr
 
-    def remove_annotations(self):
+    def paint_labels(self, painter: QPainter):
         """ """
-        items = self.graphics_view.the_scene.items()
-        for item in items:
-            # print("type : <", item.type(), ">", item.__class__.__name__)
-            if item.type() != 14:  # "QGraphicsVideoItem":
-                # print("    delete item", item.type(), item.__class__.__name__)
-                self.graphics_view.the_scene.removeItem(item)
+        # ensure at least one detection exists
+        if len(self.yolo.idxs) > 0:
+            # loop over the indexes we are keeping
+            for i in self.yolo.idxs.flatten():
+                # extract the bounding box coordinates
+                (x, y) = (self.yolo.boxes[i][0], self.yolo.boxes[i][1])
+                (w, h) = (self.yolo.boxes[i][2], self.yolo.boxes[i][3])
 
-        self.annotation_items = []
+                # draw a bounding box rectangle and label on the image
+                color = [int(c) for c in self.yolo.COLORS[self.yolo.classIDs[i]]]
+                pen = QtGui.QPen()
+                pen.setColor(QtGui.QColor(*color))
+                pen.setWidth(5)
+                painter.setPen(pen)
+                painter.setFont(QtGui.QFont("Arial", 15))
+                painter.drawRect(x, y, w, h)
+                text = "{}: {:.3f}".format(
+                    self.yolo.LABELS[self.yolo.classIDs[i]], self.yolo.confidences[i]
+                )
+                painter.drawText(x, y - 5, text)
+
+    def paint_content(self, painter: QPainter, src_image: QtGui.QImage):
+        """ """
+        painter.drawImage(
+            QtCore.QRect(0, 0, src_image.width(), src_image.height()),
+            src_image,
+            QtCore.QRect(0, 0, src_image.width(), src_image.height()),
+        )
+
+        pen = QtGui.QPen()
+        pen.setColor(QtGui.QColor("black"))
+        pen.setWidth(25)
+
+        painter.fillRect(300, 100, 200, 200, QtGui.QColor("green"))
