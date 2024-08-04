@@ -17,7 +17,8 @@ from colorama import Style
 
 from jinja2 import Template
 
-sys.path.append("..")
+sys.path.append("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds")
+sys.path.append("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_WRAPPER")
 
 
 class DealError(Exception):
@@ -86,61 +87,61 @@ class Color(Enum):
 class Card(Enum):
     """ """
 
-    S_2 = (0, 0, Color.SPADES, "2")
-    S_3 = (1, 0, Color.SPADES, "3")
-    S_4 = (2, 0, Color.SPADES, "4")
-    S_5 = (3, 0, Color.SPADES, "5")
-    S_6 = (4, 0, Color.SPADES, "6")
-    S_7 = (5, 0, Color.SPADES, "7")
-    S_8 = (6, 0, Color.SPADES, "8")
-    S_9 = (7, 0, Color.SPADES, "9")
-    S_T = (8, 0, Color.SPADES, "T")
-    S_J = (9, 1, Color.SPADES, "J")
-    S_Q = (10, 2, Color.SPADES, "Q")
-    S_K = (11, 3, Color.SPADES, "K")
-    S_A = (12, 4, Color.SPADES, "A")
+    S_2 = (0, 0, Color.SPADES, "2", 13)
+    S_3 = (1, 0, Color.SPADES, "3", 12)
+    S_4 = (2, 0, Color.SPADES, "4", 11)
+    S_5 = (3, 0, Color.SPADES, "5", 10)
+    S_6 = (4, 0, Color.SPADES, "6", 9)
+    S_7 = (5, 0, Color.SPADES, "7", 8)
+    S_8 = (6, 0, Color.SPADES, "8", 7)
+    S_9 = (7, 0, Color.SPADES, "9", 5)
+    S_T = (8, 0, Color.SPADES, "T", 5)
+    S_J = (9, 1, Color.SPADES, "J", 4)
+    S_Q = (10, 2, Color.SPADES, "Q", 3)
+    S_K = (11, 3, Color.SPADES, "K", 2)
+    S_A = (12, 4, Color.SPADES, "A", 1)
 
-    H_2 = (13 + 0, 0, Color.HEARTS, "2")
-    H_3 = (13 + 1, 0, Color.HEARTS, "3")
-    H_4 = (13 + 2, 0, Color.HEARTS, "4")
-    H_5 = (13 + 3, 0, Color.HEARTS, "5")
-    H_6 = (13 + 4, 0, Color.HEARTS, "6")
-    H_7 = (13 + 5, 0, Color.HEARTS, "7")
-    H_8 = (13 + 6, 0, Color.HEARTS, "8")
-    H_9 = (13 + 7, 0, Color.HEARTS, "9")
-    H_T = (13 + 8, 0, Color.HEARTS, "T")
-    H_J = (13 + 9, 1, Color.HEARTS, "J")
-    H_Q = (13 + 10, 2, Color.HEARTS, "Q")
-    H_K = (13 + 11, 3, Color.HEARTS, "K")
-    H_A = (13 + 12, 4, Color.HEARTS, "A")
+    H_2 = (13 + 0, 0, Color.HEARTS, "2", 26)
+    H_3 = (13 + 1, 0, Color.HEARTS, "3", 25)
+    H_4 = (13 + 2, 0, Color.HEARTS, "4", 24)
+    H_5 = (13 + 3, 0, Color.HEARTS, "5", 23)
+    H_6 = (13 + 4, 0, Color.HEARTS, "6", 22)
+    H_7 = (13 + 5, 0, Color.HEARTS, "7", 21)
+    H_8 = (13 + 6, 0, Color.HEARTS, "8", 20)
+    H_9 = (13 + 7, 0, Color.HEARTS, "9", 19)
+    H_T = (13 + 8, 0, Color.HEARTS, "T", 18)
+    H_J = (13 + 9, 1, Color.HEARTS, "J", 17)
+    H_Q = (13 + 10, 2, Color.HEARTS, "Q", 16)
+    H_K = (13 + 11, 3, Color.HEARTS, "K", 15)
+    H_A = (13 + 12, 4, Color.HEARTS, "A", 14)
 
-    D_2 = (2 * 13 + 0, 0, Color.DIAMONDS, "2")
-    D_3 = (2 * 13 + 1, 0, Color.DIAMONDS, "3")
-    D_4 = (2 * 13 + 2, 0, Color.DIAMONDS, "4")
-    D_5 = (2 * 13 + 3, 0, Color.DIAMONDS, "5")
-    D_6 = (2 * 13 + 4, 0, Color.DIAMONDS, "6")
-    D_7 = (2 * 13 + 5, 0, Color.DIAMONDS, "7")
-    D_8 = (2 * 13 + 6, 0, Color.DIAMONDS, "8")
-    D_9 = (2 * 13 + 7, 0, Color.DIAMONDS, "9")
-    D_T = (2 * 13 + 8, 0, Color.DIAMONDS, "T")
-    D_J = (2 * 13 + 9, 1, Color.DIAMONDS, "J")
-    D_Q = (2 * 13 + 10, 2, Color.DIAMONDS, "Q")
-    D_K = (2 * 13 + 11, 3, Color.DIAMONDS, "K")
-    D_A = (2 * 13 + 12, 4, Color.DIAMONDS, "A")
+    D_2 = (2 * 13 + 0, 0, Color.DIAMONDS, "2", 39)
+    D_3 = (2 * 13 + 1, 0, Color.DIAMONDS, "3", 38)
+    D_4 = (2 * 13 + 2, 0, Color.DIAMONDS, "4", 37)
+    D_5 = (2 * 13 + 3, 0, Color.DIAMONDS, "5", 36)
+    D_6 = (2 * 13 + 4, 0, Color.DIAMONDS, "6", 35)
+    D_7 = (2 * 13 + 5, 0, Color.DIAMONDS, "7", 34)
+    D_8 = (2 * 13 + 6, 0, Color.DIAMONDS, "8", 33)
+    D_9 = (2 * 13 + 7, 0, Color.DIAMONDS, "9", 32)
+    D_T = (2 * 13 + 8, 0, Color.DIAMONDS, "T", 31)
+    D_J = (2 * 13 + 9, 1, Color.DIAMONDS, "J", 30)
+    D_Q = (2 * 13 + 10, 2, Color.DIAMONDS, "Q", 29)
+    D_K = (2 * 13 + 11, 3, Color.DIAMONDS, "K", 28)
+    D_A = (2 * 13 + 12, 4, Color.DIAMONDS, "A", 27)
 
-    C_2 = (3 * 13 + 0, 0, Color.CLUBS, "2")
-    C_3 = (3 * 13 + 1, 0, Color.CLUBS, "3")
-    C_4 = (3 * 13 + 2, 0, Color.CLUBS, "4")
-    C_5 = (3 * 13 + 3, 0, Color.CLUBS, "5")
-    C_6 = (3 * 13 + 4, 0, Color.CLUBS, "6")
-    C_7 = (3 * 13 + 5, 0, Color.CLUBS, "7")
-    C_8 = (3 * 13 + 6, 0, Color.CLUBS, "8")
-    C_9 = (3 * 13 + 7, 0, Color.CLUBS, "9")
-    C_T = (3 * 13 + 8, 0, Color.CLUBS, "T")
-    C_J = (3 * 13 + 9, 1, Color.CLUBS, "J")
-    C_Q = (3 * 13 + 10, 2, Color.CLUBS, "Q")
-    C_K = (3 * 13 + 11, 3, Color.CLUBS, "K")
-    C_A = (3 * 13 + 12, 4, Color.CLUBS, "A")
+    C_2 = (3 * 13 + 0, 0, Color.CLUBS, "2", 52)
+    C_3 = (3 * 13 + 1, 0, Color.CLUBS, "3", 52)
+    C_4 = (3 * 13 + 2, 0, Color.CLUBS, "4", 50)
+    C_5 = (3 * 13 + 3, 0, Color.CLUBS, "5", 49)
+    C_6 = (3 * 13 + 4, 0, Color.CLUBS, "6", 48)
+    C_7 = (3 * 13 + 5, 0, Color.CLUBS, "7", 47)
+    C_8 = (3 * 13 + 6, 0, Color.CLUBS, "8", 46)
+    C_9 = (3 * 13 + 7, 0, Color.CLUBS, "9", 45)
+    C_T = (3 * 13 + 8, 0, Color.CLUBS, "T", 44)
+    C_J = (3 * 13 + 9, 1, Color.CLUBS, "J", 43)
+    C_Q = (3 * 13 + 10, 2, Color.CLUBS, "Q", 42)
+    C_K = (3 * 13 + 11, 3, Color.CLUBS, "K", 41)
+    C_A = (3 * 13 + 12, 4, Color.CLUBS, "A", 40)
 
     def id(self) -> int:
         return self.value[0]
@@ -153,6 +154,9 @@ class Card(Enum):
 
     def symbol(self) -> str:
         return self.value[3]
+
+    def order_value(self) -> int:
+        return self.value[4]
 
     def isSPADES(self) -> bool:
         return self.color() == Color.SPADES
@@ -235,6 +239,9 @@ class Hand:
         self.target_points = self.default_points
 
         self.distribution_type = "FIXED"  # "RANDOM"
+
+    def reset(self):
+        self.cards = []  # type: List[Card]
 
     def __repr__(self) -> str:
         return self.get_compact_repr()
@@ -881,6 +888,15 @@ class Deal:
             "E": Hand("E"),
         }  # type: Dict[str,Hand]
 
+    def reset(self):
+        """
+        empty deal
+        """
+        self.hand["N"].reset()
+        self.hand["S"].reset()
+        self.hand["W"].reset()
+        self.hand["E"].reset()
+
     def print(self):
         print("--------------------------")
         print(self.hand["N"].get_std_repr())
@@ -930,6 +946,7 @@ class Deal:
         hand_pbn[pos] = all_hands[3]
 
         for pos in ("N", "E", "S", "W"):
+            # self.hand[pos].setTargetCardsFromPbn(hand_pbn[pos])
             self.hand[pos].setTargetCardsFromPbn(hand_pbn[pos])
 
     def to_pbn(self) -> str:
@@ -1001,12 +1018,17 @@ class Deal:
 
         r = DDS.calc_dd_table(pbn)
 
-        for i in range(0, 5):
-            for j in range(0, 4):
-                if r.resTable[i][j] < 7:
-                    contracts[i][j] = "-"
-                else:
-                    contracts[i][j] = str(r.resTable[i][j] - 6)
+        if r:
+            for i in range(0, 5):
+                for j in range(0, 4):
+                    if r.resTable[i][j] < 7:
+                        contracts[i][j] = "-"
+                    else:
+                        contracts[i][j] = str(r.resTable[i][j] - 6)
+        else:
+            for i in range(0, 5):
+                for j in range(0, 4):
+                    contracts[i][j] = "e"
 
         template = Template(
             """
