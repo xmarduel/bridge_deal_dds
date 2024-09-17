@@ -1236,22 +1236,15 @@ td, th {
         )
         return template.render(deal=self, Color=Color)
 
-    def reset(self):
-        """ """
-        self.hand["N"].cards = []
-        self.hand["S"].cards = []
-        self.hand["W"].cards = []
-        self.hand["E"].cards = []
-
     def generate(self) -> bool:
         """ """
         try:
-            items = []
+            list_items = []
 
             for card in Card:
-                items.append(card)
+                list_items.append(card)
 
-            items = set(items)
+            items = set(list_items)
 
             # first for all hands the mandatory cards
             self.hand["N"].generate_handle_target_cards(items)
