@@ -20,7 +20,7 @@
 
 # GCD doesn't work on Windows.
 #THR_BOOST	= -DDDS_THREADS_BOOST
-THR_BOOST	= 
+THR_BOOST	=
 THR_GCD		= -DDDS_THREADS_GCD
 THR_OPENMP	= -DDDS_THREADS_OPENMP
 THR_WINAPI	= -DDDS_THREADS_WINAPI
@@ -32,9 +32,11 @@ THREADING	= $(THR_BOOST) $(THR_OPENMP) $(THR_STL)
 # the place.
 
 #CC_BOOST_LINK	= -lboost_system -lboost_thread
+#CC_BOOST_LINK	= -lboost_system-mt -lboost_thread-mt
 CC_BOOST_LINK	= 
 
-THREAD_COMPILE	= -fopenmp
+#THREAD_COMPILE	= -fopenmp
+#THREAD_COMPILE	= -fopenmp
 THREAD_LINK	= -lgomp $(CC_BOOST_LINK)
 
 # 2. Debugging options.  (There are more granular options in debug.h.)

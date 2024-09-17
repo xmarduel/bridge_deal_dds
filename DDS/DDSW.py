@@ -1,6 +1,6 @@
-'''
+"""
 a wrapper around the dds ctypes "wrapper" dds.py
-'''
+"""
 
 import ctypes
 
@@ -10,14 +10,14 @@ import dds
 
 
 class DDS:
-    '''
-    '''
+    """ """
+
     NOTRUMP = hands.NOTRUMP
     SPADES = hands.SPADES
     HEARTS = hands.HEARTS
     DIAMONDS = hands.DIAMONDS
     CLUBS = hands.CLUBS
-        
+
     NORTH = hands.NORTH
     EAST = hands.EAST
     SOUTH = hands.SOUTH
@@ -25,25 +25,23 @@ class DDS:
 
     def __init__(self):
         dds.SetMaxThreads(0)
-            
+
     def show_pbn(self, pbn: str):
-        '''
-        '''
+        """ """
         tableDealPBN = dds.ddTableDealPBN()
-        tableDealPBN.cards = pbn.encode('utf-8')
+        tableDealPBN.cards = pbn.encode("utf-8")
 
         line = ctypes.create_string_buffer(80)
 
         functions.PrintPBNHand(line, tableDealPBN.cards)
 
     def calc_dd_table(self, pbn: str):
-        '''
-        '''
+        """ """
         tableDealPBN = dds.ddTableDealPBN()
-        tableDealPBN.cards = pbn.encode('utf-8')
-        
+        tableDealPBN.cards = pbn.encode("utf-8")
+
         table = dds.ddTableResults()
-        
+
         res = dds.CalcDDtablePBN(tableDealPBN, ctypes.pointer(table))
 
         if res != dds.RETURN_NO_FAULT:
@@ -58,27 +56,26 @@ class DDS:
 
             ##functions.PrintPBNHand(line, tableDealPBN.cards)
             return table
-  
+
     def print_dd_table(self, table):
-        '''
-        '''
+        """ """
         theTable = ctypes.pointer(table)
         functions.PrintTable(theTable)
 
 
-if __name__ == '__main__':
-    DDS = DDS()
-    
-    pbn = "N:KQ964.AK763.J6.Q AJ8.J5.Q92.KJ964 7.T42.AT84.AT875 T532.Q98.K753.32"
-    
-    DDS.show_pbn(pbn)
+if __name__ == "__main__":
+    ddsw = DDS()
 
-    res = DDS.calc_dd_table(pbn)
-    DDS.print_dd_table(res)
+    pbn = "N:KQ964.AK763.J6.Q AJ8.J5.Q92.KJ964 7.T42.AT84.AT875 T532.Q98.K753.32"
+
+    ddsw.show_pbn(pbn)
+
+    res = ddsw.calc_dd_table(pbn)
+    ddsw.print_dd_table(res)
 
     # how to access single elements of the table
     print("Accessing single elements of the table:")
     for i in range(4):
         for j in range(4):
-            print("  table[%d][%d] = %d" % (i,j,res.resTable[i][j]))
+            print("  table[%d][%d] = %d" % (i, j, res.resTable[i][j]))
         print("  -------------------------")
