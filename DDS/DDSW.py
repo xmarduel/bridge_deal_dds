@@ -56,7 +56,7 @@ class DDS:
             line = ctypes.create_string_buffer(80)
             line = "CalcDDtable: {}".format("OK")
 
-            functions.PrintPBNHand(line, tableDealPBN.cards)
+            ##functions.PrintPBNHand(line, tableDealPBN.cards)
             return table
   
     def print_dd_table(self, table):

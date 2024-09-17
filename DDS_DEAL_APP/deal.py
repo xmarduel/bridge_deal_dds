@@ -1,6 +1,7 @@
 # coding: utf8
 
 import sys
+import os
 
 from typing import Optional
 from typing import List
@@ -17,8 +18,10 @@ from colorama import Style
 
 from jinja2 import Template
 
-sys.path.append("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds")
-sys.path.append("C:\\Users\\xavie\\Documents\\GITHUB\\bridge_dds\\DDS_WRAPPER")
+BRIDGE_DEAL_APP = os.environ["BRIDGE_DEAL_APP"]
+
+sys.path.append(BRIDGE_DEAL_APP)
+sys.path.append(os.path.join(BRIDGE_DEAL_APP, "DDS"))
 
 
 class DealError(Exception):
@@ -973,7 +976,7 @@ class Deal:
         """
         try:
             # TODO switch win32/others
-            import DDS_WRAPPER.DDSW as DDSW
+            import DDS.DDSW as DDSW
         except Exception as e:
 
             class dds:
@@ -1000,7 +1003,7 @@ class Deal:
                     return self.FakeDDTable()
 
         # TODO switch win32/others
-        import DDS_WRAPPER.DDSW as DDSW
+        import DDS.DDSW as DDSW
 
         DDS = DDSW.DDS()
 
@@ -1015,6 +1018,8 @@ class Deal:
         }  # type: Dict[int, Dict[Any,Any]]
 
         pbn = self.to_pbn()
+
+        print("pbn: ", pbn)
 
         r = DDS.calc_dd_table(pbn)
 
@@ -1081,14 +1086,14 @@ td, th {
         """
         try:
             # TODO switch win32/others
-            import DDS_WRAPPER.DDSW as DDSW
+            import DDS.DDSW as DDSW
 
             DDS = DDSW.DDS()
         except Exception as e:
             raise DealNoDDS
 
         # TODO switch win32/others
-        import DDS_WRAPPER.DDSW as DDSW
+        import DDS.DDSW as DDSW
 
         DDS = DDSW.DDS()
 

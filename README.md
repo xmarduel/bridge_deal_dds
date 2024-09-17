@@ -23,13 +23,13 @@ The source files are duplicated here, and there is a small python wrapper on it
 
 # Installation
 
-Install all the source in a folder of your choice. Set a new environment variable "BRIDGE_DDS" to this installation folder. It contains, among others, the folders
+Install all the source in a folder of your choice. Set a new environment variable "BRIDGE_DEAL_APP" to this installation folder. 
+It contains, among others, the folders
 
 - DDS
-- DDS_WRAPPER
 - DDS_DEAL_APP
 
-Add the full path of the DDS_WRAPPER folder to your PYTHONPATH environment variable.
+Add the full path of the DDS folder to your PYTHONPATH environment variable.
 
 From the installation folder, cd to DDS_DEAL_APP and type:
 
