@@ -25,6 +25,7 @@ class DDS:
 
     def __init__(self):
         dds.SetMaxThreads(0)
+        pass
 
     def show_pbn(self, pbn: str):
         """ """

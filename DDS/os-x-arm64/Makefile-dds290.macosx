@@ -9,6 +9,9 @@
 
 # Copy this Makefile into dds290-src/src and "make"
 
+# dds.py  : ctypes wrapper
+# DDSW.py : wrapper around dds.py 
+
 # --------------------- CONFIGURATION ------------------------------
 
 # You can configure the following:

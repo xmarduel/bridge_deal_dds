@@ -20,10 +20,9 @@ from ctypes import *
 if sys.platform == "win32":
     MINGW_HOME = os.environ["MINGW_HOME"]
     os.add_dll_directory(os.path.join(MINGW_HOME, "bin"))
-    BRIDGE_DEAL_APP = os.environ["BRIDGE_DEAL_APP"]
-    dds = WinDLL(os.path.join(BRIDGE_DEAL_APP, "DDS", "dds.dll"))
+    dds = WinDLL("windows/dds.dll")
 else:
-    dds = cdll.LoadLibrary("/usr/lib/libdds.so")
+    dds = CDLL("macosx/libdds.dylib")
 
 print("Loaded lib {0}".format(dds))
 

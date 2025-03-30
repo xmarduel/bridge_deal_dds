@@ -24,7 +24,7 @@ class Timer
   private:
 
     string name;
-    int count;
+    unsigned int count;
     long userCum;
     long systCum;
 

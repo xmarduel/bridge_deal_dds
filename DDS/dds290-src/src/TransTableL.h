@@ -266,7 +266,7 @@ class TransTableL: public TransTable
 
     void DumpHands(
       ofstream& fout,
-      const vector<vector<string>>& hands,
+      const vector<vector<string> >& hands,
       const unsigned char lengths[DDS_HANDS][DDS_SUITS]) const;
 
     void SetToPartialHands(
@@ -274,7 +274,7 @@ class TransTableL: public TransTable
       const unsigned mask,
       const int maxRank,
       const int numRanks,
-      vector<vector<string>>& hands) const;
+      vector<vector<string> >& hands) const;
 
     int BlocksInUse() const;
 

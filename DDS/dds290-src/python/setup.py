@@ -4,7 +4,7 @@ module1 = Extension('dds',
                     define_macros = [('MAJOR_VERSION', '1'),
                                      ('MINOR_VERSION', '0')],
                     include_dirs = ['/usr/local/include'],
-                    libraries = ['dds', 'boost_thread-mt'],
+                    libraries = ['dds'],
                     library_dirs = ['../src'],
                     sources = ['wrapper.cpp', 'hands.cpp'])
 
@@ -14,3 +14,5 @@ setup (name = 'dds',
        author = '',
        author_email = 'xavier.marduel@web.de',
        ext_modules = [module1])
+
+#libraries = ['dds', 'boost_thread-mt'],

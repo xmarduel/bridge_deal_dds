@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>530</width>
-    <height>711</height>
+    <height>767</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
       <string>DEAL</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignCenter</set>
+      <set>Qt::AlignmentFlag::AlignCenter</set>
      </property>
      <property name="margin">
       <number>0</number>
@@ -36,7 +36,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="template">
       <attribute name="title">
@@ -88,7 +88,7 @@
          <property name="minimumSize">
           <size>
            <width>500</width>
-           <height>700</height>
+           <height>600</height>
           </size>
          </property>
         </widget>

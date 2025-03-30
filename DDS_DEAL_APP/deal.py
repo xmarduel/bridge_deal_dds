@@ -18,10 +18,12 @@ from colorama import Style
 
 from jinja2 import Template
 
-BRIDGE_DEAL_APP = os.environ["BRIDGE_DEAL_APP"]
 
-sys.path.append(BRIDGE_DEAL_APP)
-sys.path.append(os.path.join(BRIDGE_DEAL_APP, "DDS"))
+sys.path.append("DDS")
+
+# import only once !
+import DDS.DDSW as DDSW
+DDS = DDSW.DDS()
 
 
 class DealError(Exception):
@@ -974,41 +976,7 @@ class Deal:
          D     8     8     4     4
          C     3     3     9     9
         """
-        try:
-            # TODO switch win32/others
-            import DDS.DDSW as DDSW
-        except Exception as e:
-
-            class dds:
-                SPADES = 0
-                HEARTS = 1
-                DIAMONDS = 2
-                CLUBS = 3
-                NOTRUMP = 4
-
-                NORTH = 0
-                SOUTH = 1
-                WEST = 2
-                EAST = 3
-
-                class FakeDDTable:
-                    def __init__(self):
-                        pass
-
-                    def data(self, i, j):
-                        return i + j + 6
-
-                @staticmethod
-                def calc_dd_table(pbn):
-                    return self.FakeDDTable()
-
-        # TODO switch win32/others
-        import DDS.DDSW as DDSW
-
-        DDS = DDSW.DDS()
-
         # ---hand---------------------------------------
-
         contracts = {
             DDS.NOTRUMP: {},
             DDS.SPADES: {},
