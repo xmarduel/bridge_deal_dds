@@ -20,7 +20,7 @@ def main(pbn):
 
     deal.print_table()
     #print(deal.to_pbn())
-    print(deal.dds_results())
+    print(deal.get_dds_results())
 
 
 if __name__ == '__main__':

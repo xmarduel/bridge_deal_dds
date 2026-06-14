@@ -1020,7 +1020,7 @@ table {
 td, th {
   text-align: center;
   padding: 1px;
-}print_deal_html
+}
 </style>
 </head>
 
