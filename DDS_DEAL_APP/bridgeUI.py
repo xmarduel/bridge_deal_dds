@@ -71,6 +71,7 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         self.widget.pushButtonGenerate.clicked.connect(self.cb_generate)
         self.widget.pushButtonGenerate2.clicked.connect(self.cb_generate)
         self.widget.pushButtonDDS.clicked.connect(self.cb_dds)
+        self.widget.comboBoxVulnerability.currentIndexChanged.connect(self.cb_vulnerability)
 
         self.widget.pushButtonSaveTemplate.clicked.connect(self.cb_save_template)
         self.widget.pushButtonNewTemplate.clicked.connect(self.cb_new_template)
@@ -84,6 +85,9 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
         # invisible on Template View
         self.widget.pushButtonDDS.hide()
         self.widget.textBrowserDDS.hide()
+
+        self.widget.comboBoxVulnerability.hide()
+        self.widget.textBrowserPAR.hide()
     
         tpl_list = [tpl_name for tpl_name in self.templates]
         self.widget.comboBoxTemplates.addItems(tpl_list)
@@ -325,8 +329,11 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
             html = deal.get_deal_html()
             self.widget.webengineviewDealTable.setHtml(html)
         
-            html = deal.get_dds_results_html()
-            self.widget.textBrowserDDS.setHtml(html)
+            dds_html = deal.get_dds_results_html()
+            self.widget.textBrowserDDS.setHtml(dds_html)
+
+            par_html = self.template.get_par_results_html(self.widget.comboBoxVulnerability.currentIndex())
+            self.widget.textBrowserPAR.setHtml(par_html)
 
     def cb_save_deal(self):
         '''
@@ -387,19 +394,32 @@ class BRIDGEMainWindow(QtWidgets.QMainWindow):
     def cb_dds(self):
         '''
         '''
-        html = self.template.get_dds_results_html()
-        
-        self.widget.textBrowserDDS.setHtml(html)
-        
+        dds_html = self.template.get_dds_results_html()
+        self.widget.textBrowserDDS.setHtml(dds_html)
+
+        par_html = self.template.get_par_results_html(self.widget.comboBoxVulnerability.currentIndex())
+        self.widget.textBrowserPAR.setHtml(par_html)
+
+    def cb_vulnerability(self):
+        '''
+        '''
+        pass
+
     def cb_toggle_view(self, index):
         '''
         '''
         if index == 0:
             self.widget.pushButtonDDS.hide()
             self.widget.textBrowserDDS.hide()  
+
+            self.widget.comboBoxVulnerability.hide()
+            self.widget.textBrowserPAR.hide()
         if index == 1:
             self.widget.pushButtonDDS.show()
-            self.widget.textBrowserDDS.show() 
+            self.widget.textBrowserDDS.show()
+
+            self.widget.comboBoxVulnerability.show()
+            self.widget.textBrowserPAR.show()
             
         # remake layout... TODO
         self.layout()

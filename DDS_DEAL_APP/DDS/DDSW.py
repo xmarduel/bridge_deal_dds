@@ -63,6 +63,27 @@ class DDS:
         theTable = ctypes.pointer(table)
         functions.PrintTable(theTable)
 
+    def calc_par(self, pbn: str, vulnerability: int):
+        """ """
+        tableDealPBN = dds.ddTableDealPBN()
+        tableDealPBN.cards = pbn.encode("utf-8")
+
+        dd_table = dds.ddTableResults()
+
+        res = dds.CalcDDtablePBN(tableDealPBN, ctypes.pointer(dd_table))
+
+        par_table = dds.parResults()
+
+        par_result = dds.CalcParPBN(tableDealPBN, ctypes.pointer(dd_table), vulnerability, ctypes.pointer(par_table))
+    
+        self.print_par(par_table)
+
+        return par_table
+     
+    def print_par(self, par_result):
+        functions.PrintPar(par_result)
+        
+
 
 if __name__ == "__main__":
     ddsw = DDS()

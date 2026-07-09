@@ -967,6 +967,54 @@ class Deal:
         ]
         return " ".join(res)
 
+    def get_par_results_html(self, vulnerability: int):
+        '''
+        0: None
+        1: Both
+        2: NS
+        3: EW
+        '''
+        pbn = self.to_pbn()
+        par = DDS.calc_par(pbn, vulnerability)
+        
+        if not par:
+            
+          return """ ERROR PAR
+"""  
+
+        parScore = par.parScore
+        print("PAR SCORES.  :", parScore[0].value.decode('UTF-8'), parScore[1].value.decode('UTF-8') )
+        parContractsString = par.parContractsString
+        print("PAR CONTRACTS:", parContractsString[0].value.decode('UTF-8'), parContractsString[1].value.decode('UTF-8'))
+
+        template = Template(
+            """
+<html>
+    <head>
+            <style>        
+              .powderblue {
+                  background-color: powderblue;
+              }
+            </style>
+    </head>
+        
+    <body  class="powderblue">
+        <div>
+        Par: 
+        </div>
+        <div style='margin-left: 20px'>
+           NS score: {{p.parScore[0].value.decode('UTF-8')}} / Contract:  {{p.parContractsString[0].value.decode('UTF-8')}} 
+        </div>
+        <div style='margin-left: 20px'>
+           EW score: {{p.parScore[1].value.decode('UTF-8')}} / Contract:  {{p.parContractsString[1].value.decode('UTF-8')}} 
+        </div>
+    </body>
+</html>
+"""
+        )
+        return template.render(p=par)
+    
+
     def get_dds_results_html(self) -> str:
         """
               North South East  West
@@ -989,15 +1037,15 @@ class Deal:
 
         print("pbn: ", pbn)
 
-        r = DDS.calc_dd_table(pbn)
+        dds = DDS.calc_dd_table(pbn)
 
-        if r:
+        if dds:
             for i in range(0, 5):
                 for j in range(0, 4):
-                    if r.resTable[i][j] < 7:
+                    if dds.resTable[i][j] < 7:
                         contracts[i][j] = "-"
                     else:
-                        contracts[i][j] = str(r.resTable[i][j] - 6)
+                        contracts[i][j] = str(dds.resTable[i][j] - 6)
         else:
             for i in range(0, 5):
                 for j in range(0, 4):
@@ -1066,7 +1114,7 @@ td, th {
         DDS = DDSW.DDS()
 
         pbn = self.to_pbn()
-        r = DDS.calc_dd_table(pbn)
+        dds = DDS.calc_dd_table(pbn)
 
         contracts = {
             DDS.NOTRUMP: {},
@@ -1078,10 +1126,10 @@ td, th {
 
         for i in range(0, 5):
             for j in range(0, 4):
-                if r.resTable[i][j] < 7:
+                if dds.resTable[i][j] < 7:
                     contracts[i][j] = "-"
                 else:
-                    contracts[i][j] = str(r.resTable[i][j] - 6)
+                    contracts[i][j] = str(dds.resTable[i][j] - 6)
 
         template = Template(
             """
